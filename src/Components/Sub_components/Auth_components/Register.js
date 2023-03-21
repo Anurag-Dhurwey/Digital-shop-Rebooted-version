@@ -67,7 +67,7 @@ import { useGlobleContext } from "../../../Context/Globle_Context";
         <Fragment>
         <Row align="middle" className="justify-center">
           <Col className={`w-[300px] md:w-[400px] lg:w-[500px] justify-center`}>
-            <Card title="Register">
+            <Card title="Register" className={`${enabled?'bg-slate-700':'bg-slate-300'}`}>
               {error ? (
                 <Alert
                   className="alert_error"
@@ -120,7 +120,7 @@ import { useGlobleContext } from "../../../Context/Globle_Context";
                   <Button
                     type="primary"
                     htmlType="submit"
-                    className="login_submit_btn"
+                    className="login_submit_btn text-blue-600 border-2 border-blue-600"
                   >
                     Submit {isLoading && <Spin size="small" />}
                   </Button>

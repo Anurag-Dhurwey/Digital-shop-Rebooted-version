@@ -22,7 +22,7 @@ function App() {
     <Routes>
       <Route path='/' element={<Home/>} />
       <Route path='/products' element={<Products/>} />
-      <Route path='/categories' element={<VerifyEmail/>} />
+      <Route path='/categories' element={<><p>this is categories</p></>} />
       <Route path='/product/:id' element={<Aproduct/>} />
       <Route path='/profile' element={<><UserProfile/></>} />
       <Route path='/login' element={<Login/>} />
@@ -30,6 +30,7 @@ function App() {
       <Route path='/verify-registeres-email' element={<VerifyEmail/>} />
       <Route path='/cart' element={<CartPage/>} />
       <Route path='/wishlist' element={<><p>this is wishlist</p></>} />
+      <Route path='/checkout' element={<><p>this is wishlist</p></>} />
       <Route path='/orders' element={<><p>this is Order page</p></>} />
     </Routes>
     <Footer/>

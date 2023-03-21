@@ -14,6 +14,7 @@ import {
   import { Link } from "react-router-dom";
   import { useNavigate } from "react-router-dom";
   import { useAuthContext } from "../../../Context/AuthContext"; 
+import { useGlobleContext } from "../../../Context/Globle_Context";
   import { setToken } from "../../../Context/Mini_fuctions/AuthToken";
   
   const Login = () => {
@@ -21,7 +22,7 @@ import {
     const navigate = useNavigate();
   
     const { user,setUser } = useAuthContext();
-  
+    const {enabled}=useGlobleContext()
     const [isLoading, setIsLoading] = useState(false);
   
     const [error, setError] = useState("");
@@ -111,7 +112,7 @@ import {
         <Fragment>
         <Row align="middle" className="justify-center">
           <Col className="w-[300px] md:w-[400px] lg:w-[500px] ">
-            <Card title="LogIn">
+            <Card title="LogIn" className={`${enabled?'bg-slate-700':'bg-slate-300'}`}>
               {error ? (
                 <Alert
                   className="alert_error"
@@ -152,7 +153,7 @@ import {
                   <Button
                     type="primary"
                     htmlType="submit"
-                    className="login_submit_btn"
+                    className="login_submit_btn text-blue-600 border-2 border-blue-600"
                   >
                     Login {isLoading && <Spin size="small" />}
                   </Button>
