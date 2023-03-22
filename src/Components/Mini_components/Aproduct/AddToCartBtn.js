@@ -50,7 +50,7 @@ const AddToCartBtn = ({ stock,product }) => {
           {" "}
           Add to cart
         </button>
-        <button className="bg-yellow-500 text-blue-50 px-5 mx-1 py-2" onClick={()=>{user?console.log('Buy Now Logic not implemented'):navigate('/login')}}>
+        <button className="bg-yellow-500 text-blue-50 px-5 mx-1 py-2" onClick={()=>{user?navigate('/checkout'):navigate('/login')}}>
           {" "}
           Buy now
         </button>
