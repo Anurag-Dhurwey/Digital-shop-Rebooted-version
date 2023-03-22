@@ -5,18 +5,7 @@ const Context = createContext();
 
 export const AuthContext = ({ children }) => {
   const [userData, setUserData] = useState();
-  const [userAddress, setUserAddress] = useState([
-    {
-      fullname: "anurag dhurwey",
-      mobile: "7067996494",
-      house: "lig 898",
-      city: "makroniya",
-      zip: "470004",
-      area: "dd nagar",
-      landmark: "raghu hostal",
-      state: "MP",
-    }
-  ]);
+  const [userAddress, setUserAddress] = useState([]);
   const [registerersEmail, setRegisterersEmail] = useState();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -34,8 +23,10 @@ export const AuthContext = ({ children }) => {
         }
       );
       const data = await response.json();
-
+     console.log(data)
       setUserData(data);
+      setUserAddress([...data.address.address])
+      console.log(userAddress)
     } catch (error) {
       console.error(error);
       message.error("Error While Getting Logged In User Details");

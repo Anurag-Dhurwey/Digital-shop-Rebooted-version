@@ -15,7 +15,7 @@ export const CartContext = ({ children }) => {
   const [cartRef,refresCartId]=useState(false)
   const [cart, setCart] = useReducer(cartReducer, initialCart);
   const {user}=useAuthContext()
-
+  const [CheckoutItem,setCheckoutItem]=useState({})
   const addToCart = async(product, qty) => {
 
     let addToCart 
@@ -113,7 +113,7 @@ export const CartContext = ({ children }) => {
   }, [user,cartRef]);
 
   return (
-    <Context.Provider value={{ cart,refresCartId, addToCart }}>{children}</Context.Provider>
+    <Context.Provider value={{ cart,refresCartId, addToCart,CheckoutItem,setCheckoutItem }}>{children}</Context.Provider>
   );
 };
 

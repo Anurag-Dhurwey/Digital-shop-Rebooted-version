@@ -54,8 +54,8 @@ const VerifyEmail = () => {
             </div>
             <div className={` ${enabled?'text-white':'text-black'}`}>
             <h5>Please verify your email</h5>
-            <p>We have sent an email to {registerersEmail} to verify your account</p>
-            <p>After completion of email verification you can login </p>
+            <p>We have sent an email to <span className='px-1 pb-1 bg-yellow-800'>{registerersEmail}</span> to verify your account</p>
+            <p>After completion of email verification you can <span><button className='px-1 pb-1 bg-blue-900' onClick={()=>{navigate('/login')}}>login</button></span> </p>
             </div>
             <div className='my-5'>
               <button className='px-5 py-3 bg-green-800' onClick={()=>{sendEmailConfirmation(registerersEmail)}}>Resend Link</button>

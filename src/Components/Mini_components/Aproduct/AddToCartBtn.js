@@ -6,7 +6,7 @@ import { useGlobleContext } from "../../../Context/Globle_Context";
 import { useNavigate } from "react-router-dom";
 const AddToCartBtn = ({ stock,product }) => {
   const { enabled } = useGlobleContext();
-  const {addToCart}=useCartContext()
+  const {addToCart,CheckoutItem,setCheckoutItem}=useCartContext()
   const {user}=useAuthContext()
   const navigate=useNavigate()
   const [qty, setQty] = useState(1);
@@ -16,6 +16,12 @@ const AddToCartBtn = ({ stock,product }) => {
   const IncQty = () => {
     stock && stock > qty ? setQty(qty + 1) : setQty(stock);
   };
+
+const buynow=()=>{
+  user?navigate('/checkout'):navigate('/login')
+  setCheckoutItem({totalQty:qty,cartItems:[product],totalPrice:product.attributes.price*qty})
+}
+
   return (
     <div>
       <div className="quantity">
@@ -50,7 +56,7 @@ const AddToCartBtn = ({ stock,product }) => {
           {" "}
           Add to cart
         </button>
-        <button className="bg-yellow-500 text-blue-50 px-5 mx-1 py-2" onClick={()=>{user?navigate('/checkout'):navigate('/login')}}>
+        <button className="bg-yellow-500 text-blue-50 px-5 mx-1 py-2" onClick={buynow}>
           {" "}
           Buy now
         </button>

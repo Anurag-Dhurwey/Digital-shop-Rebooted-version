@@ -5,6 +5,9 @@ import PaymentForm from "./PaymentForm";
 import styled from "styled-components";
 import Address from "../Auth_components/Address";
 import { useAuthContext } from "../../../Context/AuthContext";
+import { message } from "antd";
+import { useNavigate } from "react-router-dom";
+import { useCartContext } from "../../../Context/CartContext";
 // import "./Stripe.css"
 
 // Make sure to call loadStripe outside of a component’s render to avoid
@@ -13,7 +16,9 @@ import { useAuthContext } from "../../../Context/AuthContext";
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
 
 export default function StripeComp() {
+  const navigate=useNavigate()
   const { userAddress, setUserAddress } = useAuthContext();
+  const {CheckoutItem}=useCartContext()
   const [isElement, setIsElement] = useState(1);
   const [addressIndex, setAddressIndex] = useState();
   const [clientSecret, setClientSecret] = useState("");
@@ -28,8 +33,9 @@ export default function StripeComp() {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            amount: 500,
+            amount: CheckoutItem.totalPrice,
             receipt_email: "anurag@1gmail.com",
+            description:`Payment for ${CheckoutItem.cartItems[0].attributes.title}`,
             metadata: {
               fullname,
               mobile,
@@ -51,6 +57,8 @@ export default function StripeComp() {
       }
     } catch (error) {
       console.log(error);
+      message.error(`Server is not responding try again after some time`)
+      navigate('/')
     }
   };
 

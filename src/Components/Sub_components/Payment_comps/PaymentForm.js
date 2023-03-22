@@ -59,14 +59,20 @@ export default function CheckoutForm() {
     }
 
     setIsLoading(true);
-
-    const { error } = await stripe.confirmPayment({
+     setMessage("Confirming Payment")
+    const { error,id } = await stripe.confirmPayment({
       elements,
       confirmParams: {
         // Make sure to change this to your payment completion page
         return_url: "http://localhost:3000/checkout-payment-success",
       },
     });
+
+    if(id){
+      setMessage("Payment Confirmed")
+      // this fuction Updates the order in backend
+      
+    }
 
     // This point will only be reached if there is an immediate error when
     // confirming the payment. Otherwise, your customer will be redirected to
@@ -101,7 +107,7 @@ export default function CheckoutForm() {
         </span>
       </button>
       {/* Show any error or success messages */}
-      {message && <div id="payment-message">{message}</div>}
+      {message && <div id="payment-message" className="font-medium">{message}</div>}
     </form>
   );
 }

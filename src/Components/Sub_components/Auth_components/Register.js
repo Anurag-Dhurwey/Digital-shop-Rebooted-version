@@ -33,7 +33,7 @@ import { useGlobleContext } from "../../../Context/Globle_Context";
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(values),
+          body: JSON.stringify({...values,address:{address:[]}}),
         });
   
         const data = await response.json();

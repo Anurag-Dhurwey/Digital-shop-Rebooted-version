@@ -1,8 +1,10 @@
+import { message } from 'antd';
 import React ,{useState}from 'react'
 import { useAuthContext } from '../../../Context/AuthContext';
+import { UpdateAddress } from '../../../Context/Mini_fuctions/UpdateAddress';
 
-const Address = ({method,api}) => {
-    const {userAddress,setUserAddress}=useAuthContext()
+const Address = ({method,api,setAddress}) => {
+    const {user,userAddress,setUserAddress}=useAuthContext()
   const [addressData, setAddressData] = useState({
     fullname: "",
     mobile: "",
@@ -13,7 +15,7 @@ const Address = ({method,api}) => {
     landmark: "",
     state: "",
   });
-    const {fetchClientSecret,setIsElement}=api
+
 
     const onchangeHandle = (event) => {
         setAddressData({
@@ -22,27 +24,36 @@ const Address = ({method,api}) => {
         });
       };
 
-      const perform=(e)=>{
+      const perform=async(e)=>{
          e.preventDefault()
          if(method){
+            const {fetchClientSecret,setIsElement}=api
             fetchClientSecret(addressData)
             setIsElement(2)
-            setUserAddress([
-                ...userAddress,{...addressData}
-            ])
          }
-         
+      const res= await UpdateAddress(user.id,userAddress,addressData)
+         if(setAddress){
+          setAddress(false)
+        }
+        if(res){
+          console.log(res)
+          setUserAddress([...userAddress,{...addressData}])
+          message.success(`Address added successfully`)
+        }else{
+          message.error(`Something went wrong`)
+        }
       }
 
 
   return (
     <>
-           <div className="flex flex-col justify-center items-center p-5 bg-[yellow]">
+           <div className="flex flex-col justify-center items-center p-5 bg-[#e778b9]">
         <h4>Address</h4>
-        <form onSubmit={(e)=>{perform(e)}}>
-         <div className='my-2'>
-         <label htmlFor="fullname">fullname</label>{" "}
+        <form onSubmit={(e)=>{perform(e)}} className="flex flex-col justify-center items-center">
+         <div className='mt-1'>
+         <p className=" font-medium" htmlFor="fullname">Full name (First and Last name)</p>{" "}
           <input
+            className='w-[300px] md:w-[400px] lg:w-[500px] px-2 py-1'
             type="text"
             name="fullname"
             required
@@ -53,9 +64,10 @@ const Address = ({method,api}) => {
             }}
           />
          </div>
-          <div>
-          <label htmlFor="mobile">mobile</label>{" "}
+          <div className="mt-1">
+          <p className=" font-medium" htmlFor="mobile">Mobile number</p>{" "}
           <input
+          className='w-[300px] md:w-[400px] lg:w-[500px] px-2 py-1'
             type="text"
             name="mobile"
             required
@@ -66,9 +78,10 @@ const Address = ({method,api}) => {
             }}
           />
           </div>
-          <div>
-          <label htmlFor="house">house</label>{" "}
+          <div className="mt-1">
+          <p className=" font-medium" htmlFor="house">Flat, House no., Building, Apartment</p>{" "}
           <input
+          className='w-[300px] md:w-[400px] lg:w-[500px] px-2 py-1'
             type="text"
             name="house"
             required
@@ -79,9 +92,10 @@ const Address = ({method,api}) => {
             }}
           />
           </div>
-          <div>
-          <label htmlFor="zip">zip</label>{" "}
+          <div className="mt-1">
+          <p className=" font-medium" htmlFor="zip">Pincode</p>{" "}
           <input
+          className='w-[300px] md:w-[400px] lg:w-[500px] px-2 py-1'
             type="text"
             name="zip"
             required
@@ -92,9 +106,10 @@ const Address = ({method,api}) => {
             }}
           />
           </div>
-          <div>
-          <label htmlFor="city">city</label>{" "}
+          <div className="mt-1">
+          <p className=" font-medium" htmlFor="city">Town/City</p>{" "}
           <input
+          className='w-[300px] md:w-[400px] lg:w-[500px] px-2 py-1'
             type="text"
             name="city"
             required
@@ -105,9 +120,10 @@ const Address = ({method,api}) => {
             }}
           />
           </div>
-         <div>
-         <label htmlFor="area">area</label>{" "}
+         <div className="mt-1">
+         <p className=" font-medium" htmlFor="area">Area, Street, Sector, Village</p>{" "}
           <input
+          className='w-[300px] md:w-[400px] lg:w-[500px] px-2 py-1'
             type="text"
             name="area"
             required
@@ -118,9 +134,10 @@ const Address = ({method,api}) => {
             }}
           />
          </div>
-         <div>
-         <label htmlFor="landmark">landmark</label>{" "}
+         <div className="mt-1">
+         <p className=" font-medium" htmlFor="landmark">Landmark</p>{" "}
           <input
+          className='w-[300px] md:w-[400px] lg:w-[500px] px-2 py-1'
             type="text"
             name="landmark"
             required
@@ -131,9 +148,10 @@ const Address = ({method,api}) => {
             }}
           />
          </div>
-         <div>
-         <label htmlFor="state">state</label>{" "}
+         <div className="mt-1">
+         <p className=" font-medium" htmlFor="state">State</p>{" "}
           <input
+          className='w-[300px] md:w-[400px] lg:w-[500px] px-2 py-1'
             type="text"
             name="state"
             required
@@ -144,7 +162,7 @@ const Address = ({method,api}) => {
             }}
           />
          </div>
-        <button type="submit">Checkout</button>
+        <button className='px-3 py-2 my-3 bg-orange-700' type="submit">{method?"Checkout":"Add"}</button>
         </form>
       </div> 
     </>
