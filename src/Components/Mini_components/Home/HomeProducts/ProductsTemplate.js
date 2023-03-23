@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useGlobleContext } from "../../../../Context/Globle_Context";
+import { currency } from "../../../../Context/Mini_fuctions/PriceFormater";
 const ProductsTemplate = () => {
   const { state, enabled } = useGlobleContext();
   let { featuredProducts } = state;
@@ -30,13 +31,13 @@ const ProductsTemplate = () => {
                 <div className="flex justify-around align-middle py-2">
                   <div>
                     <h3 className="font-bold text-[0.70rem] lg:text-base md:text-base pt-[6px] md:pt-[0px] lg:pt-[0px]">
-                      &#x20B9;{price}
+                     {currency(price)}
                     </h3>
                   </div>
                   <div>
                     <h3 className="">
                       <span className="line-through text-[0.70rem] lg:text-base md:text-base">
-                        &#x20B9;{local_price}
+                       {currency(local_price)}
                       </span>{" "}
                       <span
                         className={` ${

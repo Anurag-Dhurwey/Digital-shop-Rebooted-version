@@ -25,7 +25,7 @@ export const AuthContext = ({ children }) => {
       const data = await response.json();
      console.log(data)
       setUserData(data);
-      setUserAddress([...data.address.address])
+      setUserAddress(data.address?[...data.address.address]:'')
       console.log(userAddress)
     } catch (error) {
       console.error(error);

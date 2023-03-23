@@ -6,6 +6,7 @@ import { useGlobleContext } from "../../../Context/Globle_Context";
 import { useNavigate } from "react-router-dom";
 const AddToCartBtn = ({ stock,product }) => {
   const { enabled } = useGlobleContext();
+   // eslint-disable-next-line
   const {addToCart,CheckoutItem,setCheckoutItem}=useCartContext()
   const {user}=useAuthContext()
   const navigate=useNavigate()

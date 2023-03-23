@@ -46,7 +46,7 @@ const MapAllProducts = (props) => {
                 </Link>
               </figure>
             </div>
-            <div>
+            <div className="max-w-[600px]">
               <h2 className="font-bold  text-xs lg:text-base  lg:w-[600px] md:text-base  ">
                 {" "}
                 <Link to={`/product/${item.id}`}>

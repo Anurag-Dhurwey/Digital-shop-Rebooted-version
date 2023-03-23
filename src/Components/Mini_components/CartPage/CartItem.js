@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getOneProductApi } from "../../../Context/Mini_fuctions/GetProductApi";
 import { Link } from "react-router-dom";
+import { currency } from "../../../Context/Mini_fuctions/PriceFormater";
 const CartItem = ({ itemData }) => {
   const { attributes, id } = itemData;
   const { title, price, image } = attributes;
@@ -27,7 +28,7 @@ const CartItem = ({ itemData }) => {
         <div>
           <p>{title.slice(0, 30)}...</p>
           <p>Available in stock {Avilable_stock}</p>
-          <p>{price}</p>
+          <p>{currency(price)}</p>
         </div>
       </div>
     </>

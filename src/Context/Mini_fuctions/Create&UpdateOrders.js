@@ -8,7 +8,7 @@ const authToken = getToken();
 export const CompleteOrders = async (id, paymentIntent) => {
   const { client_secret } = paymentIntent;
   console.log(paymentIntent);
-
+console.log(id)
   try {
     const response = await fetch(
       `${process.env.REACT_APP_DATAURL}${process.env.REACT_APP_UPDATE_ORDERS}/${id}`,
@@ -42,6 +42,7 @@ export const CreateOrders = async (user, jsondata, CheckoutItem, address) => {
   const { message } = jsondata;
   // eslint-disable-next-line
   const { amount, client_secret, id, receipt_email, status } = jsondata.payment;
+
   // eslint-disable-next-line
   const { totalQty,totalPrice,orderItems} = CheckoutItem;
   // eslint-disable-next-line
@@ -65,7 +66,8 @@ export const CreateOrders = async (user, jsondata, CheckoutItem, address) => {
             products: { ...CheckoutItem},
             payment_info: { message, status },
             transaction_id: client_secret,
-            amount,
+              // below fuction destructure the amount which is comming from stripe response 
+            amount: parseInt(amount.toString().substring(0,amount.toString().length-2)),
             address,
           },
         }),

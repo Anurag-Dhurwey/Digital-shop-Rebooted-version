@@ -10,7 +10,6 @@ import { useNavigate } from "react-router-dom";
 import { useCartContext } from "../../../Context/CartContext";
 import { CreateOrders } from "../../../Context/Mini_fuctions/Create&UpdateOrders";
 import { useOrederContext } from "../../../Context/OrderContext";
-// import "./Stripe.css"
 
 // Make sure to call loadStripe outside of a component’s render to avoid
 // recreating the Stripe object on every render.
@@ -37,7 +36,7 @@ export default function StripeComp() {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            amount: CheckoutItem.totalPrice,
+            amount: parseInt(CheckoutItem.totalPrice + "00"),
             receipt_email: "anurag@1gmail.com",
             description: `Payment for ${CheckoutItem.orderItems[0].attributes.title}`,
             metadata: {
@@ -67,24 +66,34 @@ export default function StripeComp() {
         const { error, data } = createdOredr;
         // console.log(createdOredr)
         if (data) {
+          console.log(data);
+          console.log(data.id);
           setGeneratedId(data.id);
         }
         if (error) {
           message.error(`Order Creation is failed`);
           console.log(error.message);
+          setIsElement(1);
         }
       }
     } catch (error) {
       console.log(error);
       message.error(`Server is not responding try again after some time`);
-      navigate("/");
+      // navigate("/");
+      setIsElement(1);
     }
   };
 
   const nextStep = () => {
-    // this function will register payment information
-    fetchClientSecret(userAddress[addressIndex]);
-    setIsElement(2);
+    if (selectedAddress >= 0) {
+      // this function will register payment information
+      fetchClientSecret(userAddress[addressIndex]);
+      setIsElement(2);
+    } else {
+      console.log(selectedAddress);
+      message.error(` Please click on above address`);
+      console.log(` Please click on above address`);
+    }
   };
 
   const appearance = {
@@ -130,6 +139,7 @@ export default function StripeComp() {
                 );
               })}
               <button
+                // disabled={selectedAddress===undefined}
                 className="px-4 py-2 my-3 bg-orange-700"
                 onClick={nextStep}
               >

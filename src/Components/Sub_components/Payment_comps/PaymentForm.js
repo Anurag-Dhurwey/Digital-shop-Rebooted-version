@@ -9,13 +9,14 @@ import { useNavigate } from "react-router-dom";
 import { message } from "antd";
 import { CompleteOrders } from "../../../Context/Mini_fuctions/Create&UpdateOrders";
 import { useOrederContext } from "../../../Context/OrderContext";
+import { useAuthContext } from "../../../Context/AuthContext";
 
 export default function CheckoutForm() {
   const navigate = useNavigate();
-
+  const { user } = useAuthContext();
   const stripe = useStripe();
   const elements = useElements();
-// eslint-disable-next-line
+  // eslint-disable-next-line
   const [email, setEmail] = useState("");
   const [isMessage, setMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -76,29 +77,32 @@ export default function CheckoutForm() {
       },
     });
     const { error, paymentIntent } = confirmation;
-    const { status } = paymentIntent;
-    if (status === "canceled") {
-      message.error("Payment confirmation is canceled");
-      navigate("/");
-      console.error("Payment confirmation is canceled");
-    }
-    if (status === "succeeded") {
-      setMessage("Payment Confirmed");
-      message.success(`Payment Successfull`);
-      // this fuction Updates the order in backend
-      const isCompleted = await CompleteOrders(generatedId, paymentIntent);
-      const { error, data } = isCompleted;
-      console.log(isCompleted);
-      if (data) {
-        setGeneratedId(undefined);
-        message.success(`Order Successfull`);
-        navigate("/orders");
-      }
-      if (error) {
-        // if there is error then payment is done but order is not saved in database this is serious condition
-        message.error(`Payment Is successfull but Order Creation is failed`);
-        console.log(error.message);
+
+    if (paymentIntent) {
+      const { status } = paymentIntent;
+      if (status === "canceled") {
+        message.error("Payment confirmation is canceled");
         navigate("/");
+        console.error("Payment confirmation is canceled");
+      }
+      if (status === "succeeded") {
+        setMessage("Payment Confirmed");
+        message.success(`Payment Successfull`);
+        // this fuction Updates the order in backend
+        const isCompleted = await CompleteOrders(generatedId, paymentIntent);
+        const { error, data } = isCompleted;
+        console.log(isCompleted);
+        if (data) {
+          setGeneratedId(undefined);
+          message.success(`Order Successfull`);
+          navigate("/orders");
+        }
+        if (error) {
+          // if there is error then payment is done but order is not saved in database this is serious condition
+          message.error(`Payment Is successfull but Order Creation is failed`);
+          console.log(error.message);
+          navigate("/");
+        }
       }
     }
 
@@ -124,7 +128,7 @@ export default function CheckoutForm() {
     <form id="payment-form" onSubmit={handleSubmit}>
       <LinkAuthenticationElement
         id="link-authentication-element"
-        onChange={(e) => setEmail(e.target.value)}
+        onChange={(e) => setEmail(e.target ? e.target.value : user.email)}
       />
       <PaymentElement id="payment-element" options={paymentElementOptions} />
       <button disabled={isLoading || !stripe || !elements} id="submit">
