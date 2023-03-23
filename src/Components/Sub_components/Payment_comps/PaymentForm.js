@@ -3,21 +3,28 @@ import {
   PaymentElement,
   LinkAuthenticationElement,
   useStripe,
-  useElements
+  useElements,
 } from "@stripe/react-stripe-js";
-
+import { useNavigate } from "react-router-dom";
+import { message } from "antd";
+import { CompleteOrders } from "../../../Context/Mini_fuctions/Create&UpdateOrders";
+import { useOrederContext } from "../../../Context/OrderContext";
 
 export default function CheckoutForm() {
+  const navigate = useNavigate();
+
   const stripe = useStripe();
   const elements = useElements();
-
-  const [email, setEmail] = useState('');
-  const [message, setMessage] = useState(null);
+// eslint-disable-next-line
+  const [email, setEmail] = useState("");
+  const [isMessage, setMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+
+  const { generatedId, setGeneratedId } = useOrederContext();
 
   useEffect(() => {
     if (!stripe) {
-        console.log('stripe not found')
+      console.log("stripe not found");
       return;
     }
 
@@ -26,7 +33,7 @@ export default function CheckoutForm() {
     );
 
     if (!clientSecret) {
-        console.log('clientSecret not found')
+      console.log("clientSecret not found");
       return;
     }
 
@@ -54,24 +61,45 @@ export default function CheckoutForm() {
     if (!stripe || !elements) {
       // Stripe.js has not yet loaded.
       // Make sure to disable form submission until Stripe.js has loaded.
-      console.log('stripe || element not found')
+      console.log("stripe || element not found");
       return;
     }
 
     setIsLoading(true);
-     setMessage("Confirming Payment")
-    const { error,id } = await stripe.confirmPayment({
+    setMessage("Confirming Payment");
+    const confirmation = await stripe.confirmPayment({
       elements,
+      redirect: "if_required",
       confirmParams: {
         // Make sure to change this to your payment completion page
         return_url: "http://localhost:3000/checkout-payment-success",
       },
     });
-
-    if(id){
-      setMessage("Payment Confirmed")
+    const { error, paymentIntent } = confirmation;
+    const { status } = paymentIntent;
+    if (status === "canceled") {
+      message.error("Payment confirmation is canceled");
+      navigate("/");
+      console.error("Payment confirmation is canceled");
+    }
+    if (status === "succeeded") {
+      setMessage("Payment Confirmed");
+      message.success(`Payment Successfull`);
       // this fuction Updates the order in backend
-      
+      const isCompleted = await CompleteOrders(generatedId, paymentIntent);
+      const { error, data } = isCompleted;
+      console.log(isCompleted);
+      if (data) {
+        setGeneratedId(undefined);
+        message.success(`Order Successfull`);
+        navigate("/orders");
+      }
+      if (error) {
+        // if there is error then payment is done but order is not saved in database this is serious condition
+        message.error(`Payment Is successfull but Order Creation is failed`);
+        console.log(error.message);
+        navigate("/");
+      }
     }
 
     // This point will only be reached if there is an immediate error when
@@ -79,21 +107,19 @@ export default function CheckoutForm() {
     // your `return_url`. For some payment methods like iDEAL, your customer will
     // be redirected to an intermediate site first to authorize the payment, then
     // redirected to the `return_url`.
-    if (error.type === "card_error" || error.type === "validation_error") {
+    if (error) {
       setMessage(error.message);
-    } else {
-      setMessage("An unexpected error occurred.");
+      console.log(error.message);
+      message.error(error.message);
     }
 
     setIsLoading(false);
   };
 
-
-
   const paymentElementOptions = {
     layout: "tabs",
-  }
- 
+  };
+
   return (
     <form id="payment-form" onSubmit={handleSubmit}>
       <LinkAuthenticationElement
@@ -107,8 +133,11 @@ export default function CheckoutForm() {
         </span>
       </button>
       {/* Show any error or success messages */}
-      {message && <div id="payment-message" className="font-medium">{message}</div>}
+      {isMessage && (
+        <div id="payment-message" className="font-medium">
+          {isMessage}
+        </div>
+      )}
     </form>
   );
 }
-

@@ -8,6 +8,8 @@ import { useAuthContext } from "../../../Context/AuthContext";
 import { message } from "antd";
 import { useNavigate } from "react-router-dom";
 import { useCartContext } from "../../../Context/CartContext";
+import { CreateOrders } from "../../../Context/Mini_fuctions/Create&UpdateOrders";
+import { useOrederContext } from "../../../Context/OrderContext";
 // import "./Stripe.css"
 
 // Make sure to call loadStripe outside of a component’s render to avoid
@@ -16,13 +18,15 @@ import { useCartContext } from "../../../Context/CartContext";
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
 
 export default function StripeComp() {
-  const navigate=useNavigate()
-  const { userAddress, setUserAddress } = useAuthContext();
-  const {CheckoutItem}=useCartContext()
+  const navigate = useNavigate();
+  const { setGeneratedId } = useOrederContext();
+  // eslint-disable-next-line
+  const { user, userAddress, setUserAddress } = useAuthContext();
+  const { CheckoutItem } = useCartContext();
   const [isElement, setIsElement] = useState(1);
   const [addressIndex, setAddressIndex] = useState();
   const [clientSecret, setClientSecret] = useState("");
-  const [selectedAddress,setSelectedAddress]=useState()
+  const [selectedAddress, setSelectedAddress] = useState();
   const fetchClientSecret = async (userAddress) => {
     const { fullname, mobile, house, city, zip, area, landmark, state } =
       userAddress;
@@ -35,7 +39,7 @@ export default function StripeComp() {
           body: JSON.stringify({
             amount: CheckoutItem.totalPrice,
             receipt_email: "anurag@1gmail.com",
-            description:`Payment for ${CheckoutItem.cartItems[0].attributes.title}`,
+            description: `Payment for ${CheckoutItem.orderItems[0].attributes.title}`,
             metadata: {
               fullname,
               mobile,
@@ -51,18 +55,34 @@ export default function StripeComp() {
       );
 
       const jsondata = await res.json();
-      console.log(jsondata);
       if (jsondata) {
         setClientSecret(jsondata.payment.client_secret);
+        // this function will add order details into database
+        const createdOredr = await CreateOrders(
+          user,
+          jsondata,
+          CheckoutItem,
+          userAddress
+        );
+        const { error, data } = createdOredr;
+        // console.log(createdOredr)
+        if (data) {
+          setGeneratedId(data.id);
+        }
+        if (error) {
+          message.error(`Order Creation is failed`);
+          console.log(error.message);
+        }
       }
     } catch (error) {
       console.log(error);
-      message.error(`Server is not responding try again after some time`)
-      navigate('/')
+      message.error(`Server is not responding try again after some time`);
+      navigate("/");
     }
   };
 
   const nextStep = () => {
+    // this function will register payment information
     fetchClientSecret(userAddress[addressIndex]);
     setIsElement(2);
   };
@@ -85,13 +105,16 @@ export default function StripeComp() {
           {userAddress.length && (
             <div className="flex flex-col justify-center items-center">
               {userAddress?.map((item, i) => {
-               
                 return (
                   <div
-                    className={`px-5 py-2 text-center cursor-pointer ${i===selectedAddress?"border-double border-4 border-sky-500":""}`}
+                    className={`px-5 py-2 text-center cursor-pointer ${
+                      i === selectedAddress
+                        ? "border-double border-4 border-sky-500"
+                        : ""
+                    }`}
                     onClick={() => {
                       setAddressIndex(i);
-                      setSelectedAddress(i)
+                      setSelectedAddress(i);
                     }}
                     key={i}
                   >
@@ -106,7 +129,10 @@ export default function StripeComp() {
                   </div>
                 );
               })}
-              <button className="px-4 py-2 my-3 bg-orange-700" onClick={nextStep}>
+              <button
+                className="px-4 py-2 my-3 bg-orange-700"
+                onClick={nextStep}
+              >
                 Checkout
               </button>
             </div>

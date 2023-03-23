@@ -1,27 +1,30 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import { BrowserRouter } from 'react-router-dom';
-import {GlobleContext} from './Context/Globle_Context';
-import { FilterContext } from './Context/FilterContext';
-import { CartContext } from './Context/CartContext';
-import { AuthContext } from './Context/AuthContext';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { BrowserRouter } from "react-router-dom";
+import { GlobleContext } from "./Context/Globle_Context";
+import { FilterContext } from "./Context/FilterContext";
+import { CartContext } from "./Context/CartContext";
+import { AuthContext } from "./Context/AuthContext";
+import { OrderContext } from "./Context/OrderContext";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <AuthContext>
-    <GlobleContext>
-    <FilterContext>
-   <CartContext>
-   <BrowserRouter>
-    <App />
-    </BrowserRouter>
-   </CartContext>
-    </FilterContext>
-    </GlobleContext>
+      <GlobleContext>
+        <FilterContext>
+          <CartContext>
+            <OrderContext>
+              <BrowserRouter>
+                <App />
+              </BrowserRouter>
+            </OrderContext>
+          </CartContext>
+        </FilterContext>
+      </GlobleContext>
     </AuthContext>
   </React.StrictMode>
 );

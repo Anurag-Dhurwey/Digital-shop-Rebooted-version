@@ -17,9 +17,11 @@ const AddToCartBtn = ({ stock,product }) => {
     stock && stock > qty ? setQty(qty + 1) : setQty(stock);
   };
 
+const totalPrice=product.attributes.price*qty
+
 const buynow=()=>{
   user?navigate('/checkout'):navigate('/login')
-  setCheckoutItem({totalQty:qty,cartItems:[product],totalPrice:product.attributes.price*qty})
+  setCheckoutItem({totalQty:qty,totalPrice,orderItems:[{...product,itemQty:qty,itemPrice:totalPrice}]})
 }
 
   return (
