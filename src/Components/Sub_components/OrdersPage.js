@@ -3,7 +3,9 @@ import { currency } from "../../Context/Mini_fuctions/PriceFormater";
 import { useOrederContext } from "../../Context/OrderContext";
 import { Link } from "react-router-dom";
 import Details from "../Mini_components/OrderPage/Details";
+import { useGlobleContext } from "../../Context/Globle_Context";
 const OrdersPage = () => {
+  const {enabled}=useGlobleContext()
   const { OrdersData } = useOrederContext();
   const [showDetails, setShowDetails] = useState(false);
   return (
@@ -48,13 +50,12 @@ const OrdersPage = () => {
                               </Link>
                             </figure>
                           </div>
-                          <div className=" lg:max-w-[600px] md:max-w-[500px] max-w-[200px]">
+                          <div className={`lg:max-w-[600px] md:max-w-[500px] max-w-[200px] ${enabled?'text-white':'text-black'}`}>
                             <h2 className="font-bold  text-xs lg:text-base  lg:w-[600px] md:text-base  ">
                               <Link to={`/product/${item.id}`}>
                                 {window.innerWidth > 640
                                   ? title
-                                  : title.slice(0, 30)}
-                                ....
+                                  : title.slice(0, 30)+"...."}
                               </Link>
                             </h2>
                             <h6 className="text-xs">{currency(price)}</h6>
@@ -64,7 +65,7 @@ const OrdersPage = () => {
                               />
                             )}
                           </div>
-                          <div>
+                          <div className={`${enabled?'text-white':'text-black'}`}>
                             <h2 className="text-xs lg:text-base md:text-base font-medium lg:font-extrabold md:font-extrabold">
                               Total quantity : {totalQty}
                             </h2>

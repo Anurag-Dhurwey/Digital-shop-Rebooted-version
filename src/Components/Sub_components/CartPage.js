@@ -5,11 +5,10 @@ import EmptyCart from '../Mini_components/CartPage/EmptyCart'
 
 const CartPage = () => {
     const {cart}=useCartContext()
-    console.log(cart)
   return (
     <>
      <div className='mb-auto py-3'>
-    {cart.cartItems.length?<><Cart/></>:<><EmptyCart/></>}
+    {cart&& cart.cartItems.length?<><Cart/></>:<><EmptyCart/></>}
      </div>
     </>
   )

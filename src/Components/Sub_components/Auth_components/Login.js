@@ -107,66 +107,68 @@ import { useGlobleContext } from "../../../Context/Globle_Context";
   
     return (
       <>
+       <div className="mb-auto">
        {!user?<>
        
-        <Fragment className="mb-auto">
-        <Row align="middle" className="justify-center">
-          <Col className="w-[300px] md:w-[400px] lg:w-[500px] ">
-            <Card title="LogIn" className={`${enabled?'bg-slate-700':'bg-slate-300'}`}>
-              {error ? (
-                <Alert
-                  className="alert_error"
-                  message={error}
-                  type="error"
-                  closable
-                  afterClose={() => setError("")}
-                />
-              ) : null}
-              <Form
-                name="basic"
-                layout="vertical"
-                onFinish={onFinish}
-                autoComplete="off"
-              >
-                <Form.Item
-                  label="Email"
-                  name="email"
-                  rules={[
-                    {
-                      required: true,
-                      type: "email",
-                    },
-                  ]}
-                >
-                  <Input placeholder="Email address" />
-                </Form.Item>
-  
-                <Form.Item
-                  label="Password"
-                  name="password"
-                  rules={[{ required: true }]}
-                >
-                  <Input.Password placeholder="Password" />
-                </Form.Item>
-  
-                <Form.Item>
-                  <Button
-                    type="primary"
-                    htmlType="submit"
-                    className="login_submit_btn text-blue-600 border-2 border-blue-600"
-                  >
-                    Login {isLoading && <Spin size="small" />}
-                  </Button>
-                </Form.Item>
-              </Form>
-              <Typography.Paragraph className="form_help_text">
-                New to Social Cards? <Link to="/register">Register</Link>
-              </Typography.Paragraph>
-            </Card>
-          </Col>
-        </Row>
-      </Fragment>
-       </>:''}
+       <Fragment >
+       <Row align="middle" className="justify-center">
+         <Col className="w-[300px] md:w-[400px] lg:w-[500px] ">
+           <Card title="LogIn" className={`${enabled?'bg-slate-700':'bg-slate-300'}`}>
+             {error ? (
+               <Alert
+                 className="alert_error"
+                 message={error}
+                 type="error"
+                 closable
+                 afterClose={() => setError("")}
+               />
+             ) : null}
+             <Form
+               name="basic"
+               layout="vertical"
+               onFinish={onFinish}
+               autoComplete="off"
+             >
+               <Form.Item
+                 label="Email"
+                 name="email"
+                 rules={[
+                   {
+                     required: true,
+                     type: "email",
+                   },
+                 ]}
+               >
+                 <Input placeholder="Email address" />
+               </Form.Item>
+ 
+               <Form.Item
+                 label="Password"
+                 name="password"
+                 rules={[{ required: true }]}
+               >
+                 <Input.Password placeholder="Password" />
+               </Form.Item>
+ 
+               <Form.Item>
+                 <Button
+                   type="primary"
+                   htmlType="submit"
+                   className="login_submit_btn text-blue-600 border-2 border-blue-600"
+                 >
+                   Login {isLoading && <Spin size="small" />}
+                 </Button>
+               </Form.Item>
+             </Form>
+             <Typography.Paragraph className="form_help_text">
+               New to Social Cards? <Link to="/register">Register</Link>
+             </Typography.Paragraph>
+           </Card>
+         </Col>
+       </Row>
+     </Fragment>
+      </>:''}
+       </div>
       </>
     );
   };

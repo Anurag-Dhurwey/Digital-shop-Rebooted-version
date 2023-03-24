@@ -15,7 +15,8 @@ export const OrderContext = ({ children }) => {
   const getAllOrdersData=async()=>{
 
     const orderData=await getAllOrders(user.email)
-    const {error}=orderData
+    if(orderData){
+      const {error}=orderData
     if(!error){
       if(orderData){
            setOrdersData(orderData)   
@@ -24,6 +25,9 @@ export const OrderContext = ({ children }) => {
       }
     }else{
       console.log("error while getting orderData from database")
+    }
+    }else{
+      console.log(`Oredr data is undefined`)
     }
 
 

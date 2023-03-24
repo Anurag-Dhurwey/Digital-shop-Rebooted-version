@@ -1,3 +1,4 @@
+import { message } from "antd";
 import {
   createContext,
   useContext,
@@ -25,43 +26,102 @@ export const CartContext = ({ children }) => {
   const [cart, setCart] = useReducer(cartReducer, initialCart);
   const { user } = useAuthContext();
   const [CheckoutItem, setCheckoutItem] = useState([]);
-  const addToCart = async (product, qty) => {
+
+  const addToCart = async (product, qty,callerOBJ) => {
     let addToCart;
 
+    // Destructuring the callerOBJ's values
+    let ref
+    let plush_Or_Minus
+    if(callerOBJ){
+      ref=callerOBJ.ref
+      plush_Or_Minus=callerOBJ.plush_Or_Minus
+    }
+// this operator will check cartItems available or not 
     if (cart.cartItems.length) {
+      // this operator will check product already exist in cart or not 
       let isItemExist = cart.cartItems?.filter((item) => {
         return product.id === item.id;
       });
       if (isItemExist.length) {
         let cartItems = cart.cartItems.map((item) => {
           if (item.id === product.id) {
-            return {
-              ...item,
-              itemQty: item.itemQty + qty,
-              itemsPrice: item.itemsPrice + item.attributes.price * qty,
-            };
+            // if callerOBJ is  available, then tihs will be perform 
+            if(ref==='CALL_FROM_CART'){
+              // it will check what action to Do (+ or -)
+              if(plush_Or_Minus===1){
+                console.log('if(plush_Or_Minus===1){')
+                return {
+                  ...item,
+                  itemQty: item.itemQty + 1,
+                  itemsPrice: item.itemsPrice + item.attributes.price * 1,
+                };
+              }
+              if(plush_Or_Minus===0){
+                console.log('if(plush_Or_Minus===0)')
+                return {
+                  ...item,
+                  itemQty: item.itemQty - 1,
+                  itemsPrice: item.itemsPrice - item.attributes.price * 1,
+                };
+              }
+            }
+            if(!callerOBJ){
+              return {
+                ...item,
+                itemQty: item.itemQty + qty,
+                itemsPrice: item.itemsPrice + item.attributes.price * qty,
+              };
+            }
+            
           } else {
             return {
               ...item,
             };
           }
         });
-        addToCart = {
-          ...cart,
-          cartItems: [...cartItems],
-          totalQty: cart.totalQty + qty,
-          totalPrice: cart.totalPrice + product.attributes.price * qty,
-        };
-        //   it will update same item in cartitems
+        if(ref==='CALL_FROM_CART'){
+          // if called from Cart section it will be return 
+          if(plush_Or_Minus===1){
+            addToCart = {
+              ...cart,
+              cartItems: [...cartItems],
+              totalQty: cart.totalQty + 1,
+              totalPrice: cart.totalPrice + product.attributes.price * 1,
+            };
+            console.log('Increasing')
+          }
+          if(plush_Or_Minus===0){
+            addToCart = {
+              ...cart,
+              cartItems: [...cartItems],
+              totalQty: cart.totalQty - 1,
+              totalPrice: cart.totalPrice - product.attributes.price * 1,
+            };
+            console.log('Deacreasing')
+          }
+        }
+// if callerOBJ is undefined or not available, then tihs will be perform directly  
+        if(!callerOBJ){
+          addToCart = {
+            ...cart,
+            cartItems: [...cartItems],
+            totalQty: cart.totalQty + qty,
+            totalPrice: cart.totalPrice + product.attributes.price * qty,
+          };
+        }
+          // it will update same item in cartitems
         const res = await putCartItems(cart.cartId, addToCart);
         if (res.data) {
           setCart({ type: "ADD_TO_CART", payload: addToCart });
           console.log("same data updated successfully");
+          message.success(`Success`)
         } else {
           console.log("can not be updated same data");
+          message.error(`Failed`)
         }
       } else {
-        // it will add a new item in cartitem
+        // it will add a new item in cartitems
         let cartItems = [
           ...cart.cartItems,
           {
@@ -80,8 +140,10 @@ export const CartContext = ({ children }) => {
         if (res.data) {
           setCart({ type: "ADD_TO_CART", payload: addToCart });
           console.log("new data added successfully");
+          message.success(`Success`)
         } else {
           console.log("can not be added new data");
+          message.error(`Failed`)
         }
       }
     } else {
@@ -106,8 +168,10 @@ export const CartContext = ({ children }) => {
           return val ? false : true;
         });
         console.log("data posted successfully for first time");
+        message.success(`Success`)
       } else {
         console.log("can not be posted first data");
+        message.error(`Failed`)
       }
     }
   };

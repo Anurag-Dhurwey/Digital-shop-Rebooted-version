@@ -4,12 +4,13 @@ import { useAuthContext } from "../../../Context/AuthContext";
 import { useCartContext } from "../../../Context/CartContext";
 import { useGlobleContext } from "../../../Context/Globle_Context";
 import { useNavigate } from "react-router-dom";
-const AddToCartBtn = ({ stock,product }) => {
+import { AiFillMinusCircle, AiFillPlusCircle } from "react-icons/ai";
+const AddToCartBtn = ({ stock, product }) => {
   const { enabled } = useGlobleContext();
-   // eslint-disable-next-line
-  const {addToCart,CheckoutItem,setCheckoutItem}=useCartContext()
-  const {user}=useAuthContext()
-  const navigate=useNavigate()
+  // eslint-disable-next-line
+  const { addToCart, CheckoutItem, setCheckoutItem } = useCartContext();
+  const { user } = useAuthContext();
+  const navigate = useNavigate();
   const [qty, setQty] = useState(1);
   const DecQty = () => {
     qty > 1 ? setQty(qty - 1) : setQty(1);
@@ -18,48 +19,48 @@ const AddToCartBtn = ({ stock,product }) => {
     stock && stock > qty ? setQty(qty + 1) : setQty(stock);
   };
 
-const totalPrice=product.attributes.price*qty
+  const totalPrice = product.attributes.price * qty;
 
-const buynow=()=>{
-  user?navigate('/checkout'):navigate('/login')
-  setCheckoutItem({totalQty:qty,totalPrice,orderItems:[{...product,itemQty:qty,itemPrice:totalPrice}]})
-}
+  const buynow = () => {
+    user ? navigate("/checkout") : navigate("/login");
+    setCheckoutItem({
+      totalQty: qty,
+      totalPrice,
+      orderItems: [{ ...product, itemQty: qty, itemPrice: totalPrice }],
+    });
+  };
 
   return (
     <div>
       <div className="quantity">
-        <h3 className="my-5">
-          <span
-            className={`px-3 py-2 cursor-pointer m-1 ${
-              enabled ? "bg-gray-500 text-white" : "bg-slate-400 text-black"
-            }`}
-            onClick={DecQty}
-          >
-            -
+        <h3
+          className={`pl-2 my-2 flex justify-start items-center gap-x-4 ${
+            enabled ? "text-white" : "text-black"
+          }`}
+        >
+          <span className={` cursor-pointer text-xl `} onClick={DecQty}>
+            <AiFillMinusCircle />
           </span>
-          <span
-            className={`px-3 py-2  m-1 ${
-              enabled ? "bg-gray-500 text-white" : "bg-slate-400 text-black"
-            }`}
-          >
-            {qty}
-          </span>
-          <span
-            className={`px-3 py-2 cursor-pointer m-1 ${
-              enabled ? "bg-gray-500 text-white" : "bg-slate-400 text-black"
-            }`}
-            onClick={IncQty}
-          >
-            +
+          <span className={`px-2 `}>{qty}</span>
+          <span className={` cursor-pointer text-xl`} onClick={IncQty}>
+            <AiFillPlusCircle />
           </span>
         </h3>
       </div>
       <div className={`my-3`}>
-        <button className="bg-yellow-500 text-blue-50 px-5 mx-1 py-2" onClick={()=>{user?addToCart(product,qty):navigate('/login')}} >
+        <button
+          className="bg-yellow-500 text-blue-50 px-5 mx-1 py-2"
+          onClick={() => {
+            user ? addToCart(product, qty) : navigate("/login");
+          }}
+        >
           {" "}
           Add to cart
         </button>
-        <button className="bg-yellow-500 text-blue-50 px-5 mx-1 py-2" onClick={buynow}>
+        <button
+          className="bg-yellow-500 text-blue-50 px-5 mx-1 py-2"
+          onClick={buynow}
+        >
           {" "}
           Buy now
         </button>
