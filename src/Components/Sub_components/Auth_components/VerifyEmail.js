@@ -45,7 +45,7 @@ const VerifyEmail = () => {
   return (
     <>
       {!user?<>
-        <div className="flex justify-center items-center ">
+        <div className="flex justify-center items-center mb-auto">
         <div className="text-center flex flex-col justify-center items-center w-[300px] md:w-[400px] lg:w-[500px]">
             <div className='my-5'>
             <figure>

@@ -9,13 +9,23 @@ export const OrderContext = ({ children }) => {
     const {user}=useAuthContext()
 
   const [generatedId, setGeneratedId] = useState();
-
+  const [OrdersData,setOrdersData]=useState()
   
 
   const getAllOrdersData=async()=>{
 
     const orderData=await getAllOrders(user.email)
-    console.log(orderData)
+    const {error}=orderData
+    if(!error){
+      if(orderData){
+           setOrdersData(orderData)   
+      }else{
+        console.log("order data not found")
+      }
+    }else{
+      console.log("error while getting orderData from database")
+    }
+
 
   }
 
@@ -28,7 +38,7 @@ export const OrderContext = ({ children }) => {
   },[user,generatedId])
 
   return (
-    <Context.Provider value={{ generatedId, setGeneratedId }}>
+    <Context.Provider value={{ generatedId, setGeneratedId ,OrdersData}}>
       {children}
     </Context.Provider>
   );

@@ -43,6 +43,7 @@ export const AuthContext = ({ children }) => {
     if (authToken) {
       fetchLoggedInUser(authToken);
     }
+    // eslint-disable-next-line
   }, [authToken]);
 
   return (

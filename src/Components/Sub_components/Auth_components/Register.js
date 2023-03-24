@@ -21,6 +21,7 @@ import { useGlobleContext } from "../../../Context/Globle_Context";
     const API=`${process.env.REACT_APP_DATAURL}`
     const navigate = useNavigate();
     const {enabled}=useGlobleContext()
+    // eslint-disable-next-line
     const {user,setUser,setRegisterersEmail } = useAuthContext();
   
     const [isLoading, setIsLoading] = useState(false);
@@ -63,6 +64,7 @@ import { useGlobleContext } from "../../../Context/Globle_Context";
 
     return (
       <>
+      <div className="mb-auto">
       {!user?<>
         <Fragment>
         <Row align="middle" className="justify-center">
@@ -134,6 +136,7 @@ import { useGlobleContext } from "../../../Context/Globle_Context";
         </Row>
       </Fragment>
       </>:''}
+      </div>
       </>
     );
   };

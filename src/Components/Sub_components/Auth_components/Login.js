@@ -109,7 +109,7 @@ import { useGlobleContext } from "../../../Context/Globle_Context";
       <>
        {!user?<>
        
-        <Fragment>
+        <Fragment className="mb-auto">
         <Row align="middle" className="justify-center">
           <Col className="w-[300px] md:w-[400px] lg:w-[500px] ">
             <Card title="LogIn" className={`${enabled?'bg-slate-700':'bg-slate-300'}`}>

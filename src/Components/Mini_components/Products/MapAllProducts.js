@@ -50,7 +50,7 @@ const MapAllProducts = (props) => {
               <h2 className="font-bold  text-xs lg:text-base  lg:w-[600px] md:text-base  ">
                 {" "}
                 <Link to={`/product/${item.id}`}>
-                  {window.innerWidth > 640 ? title : title.slice(0, 50)}....
+                  {window.innerWidth > 640 ? title : title.slice(0, 50)`....`}
                 </Link>
               </h2>
               <RatingReview rating={rating}/>

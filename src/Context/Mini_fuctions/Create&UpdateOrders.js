@@ -2,13 +2,12 @@ import { getToken } from "./AuthToken";
 
 const authToken = getToken();
 
-
 // this fuction will Confirem the final status of order
 
 export const CompleteOrders = async (id, paymentIntent) => {
   const { client_secret } = paymentIntent;
   console.log(paymentIntent);
-console.log(id)
+  console.log(id);
   try {
     const response = await fetch(
       `${process.env.REACT_APP_DATAURL}${process.env.REACT_APP_UPDATE_ORDERS}/${id}`,
@@ -44,7 +43,7 @@ export const CreateOrders = async (user, jsondata, CheckoutItem, address) => {
   const { amount, client_secret, id, receipt_email, status } = jsondata.payment;
 
   // eslint-disable-next-line
-  const { totalQty,totalPrice,orderItems} = CheckoutItem;
+  const { totalQty, totalPrice, orderItems } = CheckoutItem;
   // eslint-disable-next-line
   const { email, username } = user;
   console.log(address);
@@ -63,11 +62,13 @@ export const CreateOrders = async (user, jsondata, CheckoutItem, address) => {
             email,
             user: "anu",
             order_Id: id,
-            products: { ...CheckoutItem},
+            products: { ...CheckoutItem },
             payment_info: { message, status },
             transaction_id: client_secret,
-              // below fuction destructure the amount which is comming from stripe response 
-            amount: parseInt(amount.toString().substring(0,amount.toString().length-2)),
+            // below fuction destructure the amount which is comming from stripe response
+            amount: parseInt(
+              amount.toString().substring(0, amount.toString().length - 2)
+            ),
             address,
           },
         }),
@@ -78,42 +79,38 @@ export const CreateOrders = async (user, jsondata, CheckoutItem, address) => {
     console.log(data);
     return data;
   } catch (error) {
-      console.log(error);
-    return error
+    console.log(error);
+    return error;
   }
 };
 
-
-
-
-export const getAllOrders=async(email)=>{
-
-
-    try {
-        const res=await fetch(`${process.env.REACT_APP_DATAURL}${process.env.REACT_APP_UPDATE_ORDERS}`, {
-          method: "GET",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization:
-              `bearer ${authToken}` ,
-          },
-          })
-          let jsonRes=await res.json()
-         const {error,data}=jsonRes
-         if(data){
-            jsonRes=jsonRes.data?.filter((item)=>{
-                return email ===item.attributes.email
-        })
-        return jsonRes
-         }
-         if(error){
-            return
-         }
-      } catch (error) {
-        console.log(error.message)
-        console.log('can not get OrderData')
+export const getAllOrders = async (email) => {
+  try {
+    const res = await fetch(
+      `${process.env.REACT_APP_DATAURL}${process.env.REACT_APP_UPDATE_ORDERS}`,
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `bearer ${authToken}`,
+        },
       }
-
-
-}
+    );
+    let jsonRes = await res.json();
+    const { error, data } = jsonRes;
+    if (data) {
+      jsonRes = jsonRes.data?.filter((item) => {
+        return email === item.attributes.email;
+      });
+      jsonRes = jsonRes.sort((a, b) => b.id - a.id);
+      return jsonRes;
+    }
+    if (error) {
+      return;
+    }
+  } catch (error) {
+    console.log(error.message);
+    console.log("can not get OrderData");
+  }
+};

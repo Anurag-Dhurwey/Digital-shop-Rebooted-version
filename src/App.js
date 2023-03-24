@@ -15,6 +15,7 @@ import VerifyEmail from './Components/Sub_components/Auth_components/VerifyEmail
 import StripeComp from './Components/Sub_components/Payment_comps/Stripe'
 import PaymentFailed from './Components/Sub_components/Payment_comps/PaymentFailed';
 import PaymentSuccessfull from './Components/Sub_components/Payment_comps/PaymentSuccessfull';
+import OrdersPage from './Components/Sub_components/OrdersPage';
 
 function App() {
   const {enabled}=useGlobleContext()
@@ -36,7 +37,7 @@ function App() {
       <Route path='/checkout' element={<StripeComp/>} />
       <Route path='/checkout-payment-failed' element={<PaymentFailed/>} />
       <Route path='/checkout-payment-success' element={<PaymentSuccessfull/>} />
-      <Route path='/orders' element={<><p>this is Order page</p></>} />
+      <Route path='/orders' element={<OrdersPage/>} />
     </Routes>
     <Footer/>
     </>
