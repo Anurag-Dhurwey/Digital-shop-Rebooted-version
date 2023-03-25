@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { useCartContext } from '../../../Context/CartContext'
 import { useGlobleContext } from '../../../Context/Globle_Context'
@@ -9,8 +9,28 @@ const Cart = () => {
     const {cart}=useCartContext()
     const {enabled}=useGlobleContext()
     const {cartItems,totalQty,totalPrice}=cart
-console.log(cartItems)
-console.log(cartItems.reverse())
+
+  // this below function will reverse the cartItems array to get latest updated products  
+const reverseArr=(cartItems)=>{
+ let ReversedCartItemsArr=[]
+  for (let i = cartItems.length-1; i >=0 ; i--) {
+    ReversedCartItemsArr.push(cartItems[i])
+  }
+  return ReversedCartItemsArr
+}
+
+
+useEffect(()=>{
+
+ 
+ if(cartItems){
+ console.log( )
+ }
+
+// eslint-disable-next-line
+},[cartItems])
+
+
   return (
     <>
      <Wrapper className={`flex ${window.innerWidth<821&&'flex-col'} justify-around items-center md:items-center lg:items-start`}>
@@ -18,7 +38,7 @@ console.log(cartItems.reverse())
         <table>
            <thead className={`${enabled?'text-white':'text-black'}`}><tr><th>Items</th><th>Qty</th><th>Price</th></tr></thead>
            <tbody>
-           {cartItems&& cartItems.reverse().map((item,i)=>{
+           {cartItems && reverseArr(cartItems).map((item,i)=>{
                  return <tr key={i} className={` ${
                     enabled ? "even:bg-zinc-700 odd:bg-zinc-800 text-white" : "even:bg-slate-300 odd:bg-white text-black"
                   }`}> 

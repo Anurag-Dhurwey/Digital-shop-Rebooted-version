@@ -36,7 +36,7 @@ const MapOneProduct = ({ aProduct }) => {
         return (
           <div key={item.id}>
             <div  className="flex-col justify-center items-center md:grid md:grid-cols-2 md:gap-2 lg:grid lg:grid-cols-2 lg:gap-2">
-            <AproductImages image={image} />
+            <AproductImages image={image} item={item}/>
             <div className="details">
               <h3 className={`${enabled?'text-white':'text-black'}`}>{title}</h3>
               <RatingReview rating={rating}/>

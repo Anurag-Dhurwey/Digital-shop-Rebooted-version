@@ -1,23 +1,23 @@
 import React from "react";
 import { AiFillHeart } from "react-icons/ai";
 import { Link } from "react-router-dom";
-import { useAuthContext } from "../../../Context/AuthContext";
-import { useGlobleContext } from "../../../Context/Globle_Context";
-import { useWishlistContext } from "../../../Context/WishlistContext";
-import Highlights from "./Highlights";
-import Price from "./Price";
-import RatingReview from "./RatingReview";
+import { useAuthContext } from "../../Context/AuthContext";
+import { useGlobleContext } from "../../Context/Globle_Context";
+import { useWishlistContext } from "../../Context/WishlistContext";
+import WishHighlights from "../Mini_components/WishlistPage/WishHighlights";
+import Price from "../Mini_components/Products/Price";
+import RatingReview from "../Mini_components/Products/RatingReview";
 
-const MapAllProducts = (props) => {
+const MapAllProducts = () => {
   const { enabled } = useGlobleContext();
   const { user } = useAuthContext();
   const { Wishlist, postWishlist, DELETEWishlist } = useWishlistContext();
-  const { products } = props;
 
   return (
     <>
-      {products?.map((item, i) => {
-        const { id, attributes } = item;
+      {Wishlist?.map((item, i) => {
+        const { id, attributes } = item.attributes.wishlist;
+
         const {
           title,
           price,
@@ -45,13 +45,13 @@ const MapAllProducts = (props) => {
 
         return (
           <div
-            className={`flex justify-center lg:gap-5  gap-1  my-3 ${
+            className={`flex justify-around lg:gap-5 md:gap-2 gap-1  ${
               enabled ? "text-white" : ""
-            } `}
+            } mt-1 border-solid border-2 border-pink-700 `}
             key={item.id}
           >
             <div>
-              <figure className="  lg:h-[300px] lg:w-[300px] md:h-[300px] md:w-[300px] w-[145px]  overflow-hidden relative">
+              <figure className="w-[100px] md:w-[150px] lg:w-[200px] h-[100px] md:h-[150px] lg:h-[200px] overflow-hidden relative">
                 {user && (
                   <AiFillHeart
                     onClick={() => {
@@ -74,7 +74,7 @@ const MapAllProducts = (props) => {
               </figure>
             </div>
             <div className="max-w-[600px]">
-              <h2 className="font-bold  text-xs lg:text-base  lg:w-[600px] md:text-base  ">
+              <h2 className="font-bold  text-xs lg:text-base  lg:w-[600px] md:text-base ">
                 {" "}
                 <Link to={`/product/${item.id}`}>
                   {title && window.innerWidth > 640 && title}
@@ -82,7 +82,7 @@ const MapAllProducts = (props) => {
                 </Link>
               </h2>
               <RatingReview rating={rating} />
-              <Highlights required_meta={required_metadata} />
+              <WishHighlights required_meta={required_metadata} />
             </div>
             <Price priceData={{ price, local_price, enabled }} />
           </div>

@@ -9,6 +9,7 @@ import { FilterContext } from "./Context/FilterContext";
 import { CartContext } from "./Context/CartContext";
 import { AuthContext } from "./Context/AuthContext";
 import { OrderContext } from "./Context/OrderContext";
+import { WishlistContext } from "./Context/WishlistContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -18,9 +19,11 @@ root.render(
         <FilterContext>
           <CartContext>
             <OrderContext>
+              <WishlistContext>
               <BrowserRouter>
                 <App />
               </BrowserRouter>
+              </WishlistContext>
             </OrderContext>
           </CartContext>
         </FilterContext>

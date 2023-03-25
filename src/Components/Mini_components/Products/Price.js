@@ -6,7 +6,7 @@ const Price = ({priceData}) => {
   return (
     <>
           <div className={`${flex?'flex ':''}`}>
-              <h2 className={`pr-3 font-extrabold marker: ${enabled?'text-white':'text-black'}`}>{currency(price)}</h2>
+              <h2 className={`pr-3 font-bold marker: ${enabled?'text-white':'text-black'}`}>{currency(price)}</h2>
               <p className={`text-sm  ${flex?'pt-[3px] pl-3':''}`}>
                 <span className={`line-through ${enabled?'text-white':'text-black'}`}>{currency(local_price)}</span>{" "}
                 <span

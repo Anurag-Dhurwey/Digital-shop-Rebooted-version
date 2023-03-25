@@ -16,6 +16,7 @@ import StripeComp from './Components/Sub_components/Payment_comps/Stripe'
 import PaymentFailed from './Components/Sub_components/Payment_comps/PaymentFailed';
 import PaymentSuccessfull from './Components/Sub_components/Payment_comps/PaymentSuccessfull';
 import OrdersPage from './Components/Sub_components/OrdersPage';
+import WishlistPage from './Components/Sub_components/WishlistPage'
 
 function App() {
   const {enabled}=useGlobleContext()
@@ -33,7 +34,7 @@ function App() {
       <Route path='/register' element={<Register/>} />
       <Route path='/verify-registeres-email' element={<VerifyEmail/>} />
       <Route path='/cart' element={<CartPage/>} />
-      <Route path='/wishlist' element={<><p>this is wishlist</p></>} />
+      <Route path='/wishlist' element={<WishlistPage/>} />
       <Route path='/checkout' element={<StripeComp/>} />
       <Route path='/checkout-payment-failed' element={<PaymentFailed/>} />
       <Route path='/checkout-payment-success' element={<PaymentSuccessfull/>} />
