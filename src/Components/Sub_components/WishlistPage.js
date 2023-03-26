@@ -15,6 +15,7 @@ const MapAllProducts = () => {
 
   return (
     <>
+      <div className="mb-auto">
       {Wishlist?.map((item, i) => {
         const { id, attributes } = item.attributes.wishlist;
 
@@ -88,6 +89,7 @@ const MapAllProducts = () => {
           </div>
         );
       })}
+      </div>
     </>
   );
 };
