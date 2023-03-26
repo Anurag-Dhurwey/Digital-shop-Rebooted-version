@@ -4,7 +4,7 @@ const Highlights = ({required_meta}) => {
   let meta_length=window.innerWidth >630?5:3
   return (
     <>
-      <ul className="text-xs lg:text-base">
+      <ul className={`${window.innerWidth<321?'text-[0.75rem]':window.innerWidth>630?'text-base':'text-xs'}`}>
                 {required_meta.meta.slice(0,meta_length).map((item, i) => {
                   const { key, value } = item;
                   return (

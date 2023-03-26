@@ -7,8 +7,8 @@ const Featured = ({ ProductsTemplate, title }) => {
   let { featuredProducts } = state;
   return (
     <>
-      <div className={`${enabled ? " text-white" : " text-black"}`}>
-        <div className="text-start">
+      {featuredProducts && <div className={`${enabled ? " text-white" : " text-black"}`}>
+        <div className="text-start relative z-[2]">
           <h2 className="py-1 md:py-3 lg:py-3 font-bold pl-2 md:pl-10 lg:pl-10 md:text-xl lg:text-xl">
             {title}
           </h2>
@@ -51,7 +51,7 @@ const Featured = ({ ProductsTemplate, title }) => {
             }
           />
         </Carousel>
-      </div>
+      </div>}
     </>
   );
 };

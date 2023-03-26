@@ -35,9 +35,9 @@ const Home = () => {
             />
           </Carousel>
 
-          <div className="main mt-[80px] md:mt-[150px] lg:mt-[250px]  ">
+          {<div className="main mt-[80px] md:mt-[150px] lg:mt-[250px]  ">
             <Featured ProductsTemplate={ProductsTemplate} title={'Featured today'}/>
-          </div>
+          </div>}
         </div>
       </Wrapper>
     </>

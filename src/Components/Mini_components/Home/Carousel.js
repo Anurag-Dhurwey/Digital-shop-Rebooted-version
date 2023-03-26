@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
 const Carousel = (props) => {
-  const { children,bgBanner } = props;
+  const { children, bgBanner } = props;
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [length, setLength] = useState(children.length);
@@ -33,23 +33,29 @@ const Carousel = (props) => {
         <div className=" flex w-[100%] relative">
           {/* You can alwas change the content of the button to other things */}
           {currentIndex > 0 && (
-            <button onClick={prev} className="left-arrow left-[24px] top-[35px] md:top-[65px] lg:top-[100px] bg-green-700">
+            <button
+              onClick={prev}
+              className="left-arrow left-[24px] top-[35px] md:top-[65px] lg:top-[100px] bg-green-700"
+            >
               &lt;
             </button>
           )}
-          <div className={`${bgBanner?'absolute z-[-1]':''}`}>
-          <div className="overflow-hidden w[100%] h-[100%] ">
-            <div
-              className="carousel-content"
-              style={{ transform: `translateX(-${currentIndex * 100}%)` }}
-            >
-              {children}
+          <div className={`${bgBanner ? "absolute z-[1]" : "z-[2]"}`}>
+            <div className="overflow-hidden w[100%] h-[100%] ">
+              <div
+                className="carousel-content"
+                style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+              >
+                {children}
+              </div>
             </div>
-          </div>
           </div>
           {/* You can alwas change the content of the button to other things */}
           {currentIndex < length - 1 && (
-            <button onClick={next} className="right-arrow right-[24px] top-[35px] md:top-[65px] lg:top-[100px] bg-green-700">
+            <button
+              onClick={next}
+              className="right-arrow right-[24px] top-[35px] md:top-[65px] lg:top-[100px] bg-green-700"
+            >
               &gt;
             </button>
           )}
@@ -63,9 +69,6 @@ const Wrapper = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-
-  
-
 
   .carousel-content {
     display: flex;
@@ -89,7 +92,7 @@ const Wrapper = styled.div`
   .left-arrow,
   .right-arrow {
     position: absolute;
-    z-index: 5;
+    z-index: 3;
     // background-color: green;
     transform: translateY(-50%);
     width: 28px;
@@ -98,9 +101,6 @@ const Wrapper = styled.div`
     // background-color: white;
     border: 1px solid #ddd;
   }
-
-  
-  
 `;
 
 export default Carousel;

@@ -1,14 +1,20 @@
-import React, { useEffect } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
+import { useNavigate } from 'react-router-dom'
 import { useCartContext } from '../../../Context/CartContext'
 import { useGlobleContext } from '../../../Context/Globle_Context'
 import { currency } from '../../../Context/Mini_fuctions/PriceFormater'
 import CartItem from './CartItem'
+import { useAuthContext } from '../../../Context/AuthContext'
+import { message } from 'antd'
 
 const Cart = () => {
-    const {cart}=useCartContext()
+  const navigate=useNavigate()
+  const {user}=useAuthContext()
+    const {cart,setCheckoutItem}=useCartContext()
     const {enabled}=useGlobleContext()
     const {cartItems,totalQty,totalPrice}=cart
+    const [ready_to_checkout,setReady_to_checkout]=useState(false)
 
   // this below function will reverse the cartItems array to get latest updated products  
 const reverseArr=(cartItems)=>{
@@ -20,15 +26,18 @@ const reverseArr=(cartItems)=>{
 }
 
 
-useEffect(()=>{
-
- 
- if(cartItems){
- console.log( )
- }
-
-// eslint-disable-next-line
-},[cartItems])
+const buynow = () => {
+  if(ready_to_checkout){
+    user ? navigate("/checkout") : navigate("/login");
+  setCheckoutItem({
+    totalQty: totalQty,
+    totalPrice,
+    orderItems: [...reverseArr(cartItems)],
+  });
+  }else{
+    message.error(`Items are not ready (Please Refresh this page)`)
+  }
+};
 
 
   return (
@@ -42,7 +51,7 @@ useEffect(()=>{
                  return <tr key={i} className={` ${
                     enabled ? "even:bg-zinc-700 odd:bg-zinc-800 text-white" : "even:bg-slate-300 odd:bg-white text-black"
                   }`}> 
-                       <td><CartItem itemData={item}/></td>
+                       <td><CartItem setReady_to_checkout={setReady_to_checkout} itemData={item}/></td>
                        <td>{item.itemQty}</td>
                        <td>{currency(item.itemsPrice)}</td>
                  </tr>
@@ -60,7 +69,7 @@ useEffect(()=>{
             </table>
             </div>
             <div className='lg:my-1'>
-              <button className="bg-yellow-500 text-blue-50 px-5  py-2">Checkout</button>
+              <button onClick={buynow} className="bg-yellow-500 text-blue-50 px-5  py-2">Checkout</button>
             </div>
             
         </div>

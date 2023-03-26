@@ -22,9 +22,12 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
+
 export const Navbar=()=> {
   const [navigation,setNavigation]=useReducer(navReducer,navTitle)
   const {enabled}=useGlobleContext()
+
+
   return (
     <Disclosure as="nav" className={`${enabled?'bg-gray-800':'bg-slate-300'}`}>
       {({ open }) => (
@@ -60,10 +63,10 @@ export const Navbar=()=> {
 
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                 {/* cart icon */}
-                <CartBtn />
+                <CartBtn navigat={{setNavigation,navigation}} />
 
                 {/* Profile dropdown */}
-                <DropDownMenu classNames={classNames} />
+                <DropDownMenu class_name={{classNames,navigation,setNavigation}} />
                 <div className='hidden md:block lg:block md:pl-3 lg:pl-8'>
                 <DarkModeBtn/>
                 </div>

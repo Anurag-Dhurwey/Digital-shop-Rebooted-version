@@ -45,9 +45,9 @@ const MapAllProducts = (props) => {
 
         return (
           <div
-            className={`flex justify-around lg:gap-5  gap-1  my-3 ${
+            className={`flex justify-around lg:gap-5  gap-1  my-2 ${
               enabled ? "text-white" : ""
-            } `}
+            }  lg:h-[320px]  md:h-[320px] h-[110px]  overflow-hidden `}
             key={item.id}
           >
             <div>

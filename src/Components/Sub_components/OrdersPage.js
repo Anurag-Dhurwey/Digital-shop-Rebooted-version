@@ -40,7 +40,7 @@ const OrdersPage = () => {
                       const { head_img } = image;
                       return (
                         <div
-                          className="flex  justify-around  lg:gap-5 md:gap-2 gap-1 "
+                          className={`flex  justify-around  lg:gap-5 md:gap-2 gap-1 `}
                           key={i}
                         >
                           <div>
@@ -65,7 +65,7 @@ const OrdersPage = () => {
                               />
                             )}
                           </div>
-                          <div className={`${enabled?'text-white':'text-black'}`}>
+                          {<div className={`${enabled?'text-white':'text-black'}`}>
                             <h2 className="text-xs lg:text-base md:text-base font-medium lg:font-extrabold md:font-extrabold">
                               Total quantity : {totalQty}
                             </h2>
@@ -79,7 +79,7 @@ const OrdersPage = () => {
                             >
                               {status ? status : "Payment Failed"}
                             </h2>
-                          </div>
+                          </div>}
                         </div>
                       );
                     })}

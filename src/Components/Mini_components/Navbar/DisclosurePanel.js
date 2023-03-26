@@ -7,6 +7,21 @@ const DisclosurePanel = (props) => {
   const {enabled}=useGlobleContext()
   const {user}=useAuthContext()
   const { classNames, navigation,setNavigation } = props.class;
+
+
+  const Animate_nav=(item)=>{
+    if(item.auth){
+       if(user){
+        setNavigation({type:"setCurrent",payload:item})
+       }else{
+        setNavigation({type:"offNavEffect",payload:navigation})
+       }
+    }else{
+      setNavigation({type:"setCurrent",payload:item})
+    }
+}
+
+
   return (
     <>
       <Disclosure.Panel className="sm:hidden">
@@ -17,7 +32,7 @@ const DisclosurePanel = (props) => {
               as={Link}
               to={!item.auth?item.href:user?item.href:'/login'}
               onClick={() => {
-                setNavigation({ type: "setCurrent", payload: item });
+                Animate_nav(item);
               }}
               className={classNames(
                 item.current

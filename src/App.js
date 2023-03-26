@@ -17,6 +17,7 @@ import PaymentFailed from './Components/Sub_components/Payment_comps/PaymentFail
 import PaymentSuccessfull from './Components/Sub_components/Payment_comps/PaymentSuccessfull';
 import OrdersPage from './Components/Sub_components/OrdersPage';
 import WishlistPage from './Components/Sub_components/WishlistPage'
+import Categories from './Components/Sub_components/Categories';
 
 function App() {
   const {enabled}=useGlobleContext()
@@ -27,7 +28,7 @@ function App() {
     <Routes>
       <Route path='/' element={<Home/>} />
       <Route path='/products' element={<Products/>} />
-      <Route path='/categories' element={<><p>this is categories</p></>} />
+      <Route path='/categories' element={<Categories/>} />
       <Route path='/product/:id' element={<Aproduct/>} />
       <Route path='/profile' element={<><UserProfile/></>} />
       <Route path='/login' element={<Login/>} />

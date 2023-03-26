@@ -4,11 +4,12 @@ import { Menu, Transition } from '@headlessui/react'
 import {Link,useNavigate} from 'react-router-dom'
 import { useAuthContext } from '../../../Context/AuthContext'
 import { removeToken } from '../../../Context/Mini_fuctions/AuthToken'
-const DropDownMenu = ({classNames}) => {
+const DropDownMenu = ({class_name}) => {
   const {user,setUser}=useAuthContext()
   const navigate=useNavigate()
-
+const {classNames,navigation,setNavigation}=class_name
   const handleLogout = () => {
+    setNavigation({type:"offNavEffect",payload:navigation})
     removeToken();
     setUser(false)
     navigate("/signin", { replace: true });
@@ -42,6 +43,7 @@ const DropDownMenu = ({classNames}) => {
                         {({ active }) => (
                           <Link
                             to="/profile"
+                            onClick={()=>{setNavigation({type:"offNavEffect",payload:navigation})}}
                             className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                           >
                             Profile
@@ -62,6 +64,7 @@ const DropDownMenu = ({classNames}) => {
                         {({ active }) => (
                           <Link
                             to="/login"
+                            onClick={()=>{setNavigation({type:"offNavEffect",payload:navigation})}}
                             className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                           >
                             Login
@@ -72,6 +75,7 @@ const DropDownMenu = ({classNames}) => {
                         {({ active }) => (
                           <Link
                             to="/register"
+                            onClick={()=>{setNavigation({type:"offNavEffect",payload:navigation})}}
                             className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                           >
                             Register
