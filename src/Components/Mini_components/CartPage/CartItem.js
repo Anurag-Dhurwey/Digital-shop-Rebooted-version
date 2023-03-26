@@ -36,8 +36,17 @@ const CartItem = ({ itemData }) => {
 
   const currentItem = async () => {
     const res = await getOneProductApi(id);
-    setStock(res.data.attributes.qty);
-    setQty(itemQty)    
+    if(res){
+      const {error}=res
+      if(!error){
+        setStock(res.data.attributes.qty);
+    setQty(itemQty)  
+      }else{
+        console.log('can not get data of one Product api in cartPage')
+      } 
+    }else{
+      console.log('can not get data of one Product api in cartPage')
+    }  
 
   };
   
@@ -58,7 +67,7 @@ const CartItem = ({ itemData }) => {
         </div>
         <div className="text-xs lg:text-base md:text-base">
           <p>{title.slice(0, 30)}...</p>
-          <p className={`px-1 w-fit ${Avilable_stock?'bg-green-700':'bg-yellow-700'}`}>{Avilable_stock?'Available in stock':'Out of stock'} : {Avilable_stock}</p>
+          <p className={`px-1 w-fit ${Avilable_stock?'bg-green-700':'bg-yellow-700'}`}>{Avilable_stock?'Available':'Out of stock'}  {Avilable_stock?Avilable_stock<5?(<>: only {Avilable_stock}</>):'':''}</p>
           <p>{currency(price)}</p>
           <h4 className="my-1 flex justify-start items-center lg:gap-x-5 md:gap-x-5 gap-x-3 ">
             <button className="text-lg md:text-xl lg:text-xl" onClick={decQty}><AiFillMinusCircle/></button>

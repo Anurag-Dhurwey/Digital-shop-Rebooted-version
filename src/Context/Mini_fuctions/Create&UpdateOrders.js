@@ -20,7 +20,7 @@ export const CompleteOrders = async (id, paymentIntent) => {
         },
         body: JSON.stringify({
           data: {
-            status: "Payment Confirmed",
+            status: "Confirmed",
             transaction_id: client_secret,
             payment_info: { payment_info: "payment" },
           },

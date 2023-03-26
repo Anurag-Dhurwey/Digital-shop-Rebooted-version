@@ -51,7 +51,7 @@ const MapAllProducts = (props) => {
             key={item.id}
           >
             <div>
-              <figure className="  lg:h-[300px] lg:w-[300px] md:h-[300px] md:w-[300px] w-[145px]  overflow-hidden relative">
+              <figure className="  lg:h-[300px] lg:w-[300px] md:h-[300px] md:w-[300px] w-[100px]  overflow-hidden relative">
                 {user && (
                   <AiFillHeart
                     onClick={() => {
@@ -78,7 +78,8 @@ const MapAllProducts = (props) => {
                 {" "}
                 <Link to={`/product/${item.id}`}>
                   {title && window.innerWidth > 640 && title}
-                  {title && window.innerWidth < 640 && title.substring(0, 50)}
+                  {title && window.innerWidth < 640 &&window.innerWidth > 320 && title.substring(0, 50)+'...'}
+                  {title && window.innerWidth < 321 && title.substring(0, 15)+'...'}
                 </Link>
               </h2>
               <RatingReview rating={rating} />

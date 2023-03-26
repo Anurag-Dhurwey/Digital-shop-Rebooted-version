@@ -6,8 +6,8 @@ const SortProducts = (props) => {
     const {enabled}=useGlobleContext()
   return (
     <>
-      <div > 
-          <form action="#">
+      <div className='ml-[2px]'> 
+          <form action="#" className={`${window.innerWidth<321 && 'w-min'}`}>
             <label htmlFor="sort" className={`px-2 ${enabled?'text-white':'text-black'}`} >Sort by</label>
             <select name="sort" id="sort" onChange={sort} className={`${enabled?'bg-zinc-900 text-slate-50 border-l-pink-50 ':'bg-slate-50 text-zinc-900 border-1-black'}`} >
               <option value="featured">Select</option>

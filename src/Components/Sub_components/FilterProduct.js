@@ -7,7 +7,7 @@ const FilterProduct = () => {
     const {filterMethod,sortMethod}=useFilterContext()
   return (
     <>
-     <div className='flex justify-center align-middle'>
+     <div className={`flex justify-around align-middle mr-[2px] ${window.innerWidth<321 && 'text-xs'}`}>
         <Search search={filterMethod}/> 
         <SortProducts sort={sortMethod}/>
         </div> 
