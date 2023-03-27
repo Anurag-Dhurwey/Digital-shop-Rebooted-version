@@ -73,7 +73,7 @@ export default function CheckoutForm() {
       redirect: "if_required",
       confirmParams: {
         // Make sure to change this to your payment completion page
-        return_url: "http://localhost:3000/checkout-payment-success",
+        return_url: process.env.REACT_APP_STRIPE_CONFIRM_PARAMS_RETURN_URL,
       },
     });
     const { error, paymentIntent } = confirmation;
@@ -93,6 +93,10 @@ export default function CheckoutForm() {
         const { error, data } = isCompleted;
         console.log(isCompleted);
         if (data) {
+          // here  a logic will define to delete ordered items from Array of CartItems 
+          
+          
+
           setGeneratedId(undefined);
           message.success(`Order Successfull`);
           navigate("/orders");
@@ -123,6 +127,7 @@ export default function CheckoutForm() {
   const paymentElementOptions = {
     layout: "tabs",
   };
+
 
   return (
     <form id="payment-form" onSubmit={handleSubmit}>

@@ -5,13 +5,13 @@ import { Link } from "react-router-dom";
 import Details from "../Mini_components/OrderPage/Details";
 import { useGlobleContext } from "../../Context/Globle_Context";
 const OrdersPage = () => {
-  const {enabled}=useGlobleContext()
+  const { enabled } = useGlobleContext();
   const { OrdersData } = useOrederContext();
   const [showDetails, setShowDetails] = useState(false);
   return (
     <>
       <div className="mb-auto">
-      {  window.innerWidth < 640 && (
+        {window.innerWidth < 640 && (
           <div className="sticky top-0">
             <button
               className="text-xs bg-green-800 px-1 py-1 rounded-[15px]"
@@ -30,7 +30,7 @@ const OrdersPage = () => {
             const { orderItems, totalPrice, totalQty } = products;
             return (
               <div
-                className="my-1 border-solid border-2 border-pink-700"
+                className="my-[1px] border-solid border-[2px] border-pink-700"
                 key={i}
               >
                 <div>
@@ -40,46 +40,62 @@ const OrdersPage = () => {
                       const { head_img } = image;
                       return (
                         <div
-                          className={`flex  justify-around  lg:gap-5 md:gap-2 gap-1 `}
+                          className={`flex mt-1 justify-around  lg:gap-x-5 md:gap-x-2 gap-x-1 ${i!==orderItems.length-1 ?'h-[50px] md:h-[80px] lg:h-[100px] overflow-hidden':''}`}
                           key={i}
                         >
                           <div>
-                            <figure className="w-[100px] md:w-[150px] lg:w-[200px] h-[100px] md:h-[150px] lg:h-[200px] overflow-hidden">
+                            <figure className="w-[50px] md:w-[80px] lg:w-[100px] h-[50px] md:h-[80px] lg:h-[100px] overflow-hidden">
                               <Link to={`/product/${item.id}`}>
                                 <img src={head_img[0]} alt="product_Img" />
                               </Link>
                             </figure>
                           </div>
-                          <div className={`lg:max-w-[600px] md:max-w-[500px] max-w-[200px] ${enabled?'text-white':'text-black'}`}>
-                            <h2 className="font-bold  text-xs lg:text-base  lg:w-[600px] md:text-base  ">
+                          <div
+                            className={`lg:max-w-[600px] md:max-w-[500px] max-w-[200px] ${
+                              enabled ? "text-white" : "text-black"
+                            }`}
+                          >
+                            <h2 className="font-bold  text-xs lg:text-sm  lg:w-[600px] md:text-sm  ">
                               <Link to={`/product/${item.id}`}>
                                 {window.innerWidth > 640
                                   ? title
-                                  : title.slice(0, 30)+"...."}
+                                  : title.slice(0, 30) + "...."}
                               </Link>
                             </h2>
                             <h6 className="text-xs">{currency(price)}</h6>
                             {window.innerWidth > 640 && (
-                              <Details
-                                detail={{ updatedAt, order_Id, transaction_id }}
-                              />
+                              <div className={`${i !== orderItems.length-1 ? "invisible" : ""}`}>
+                                <Details
+                                  detail={{
+                                    updatedAt,
+                                    order_Id,
+                                    transaction_id,
+                                  }}
+                                />
+                              </div>
                             )}
                           </div>
-                          {<div className={`${enabled?'text-white':'text-black'}`}>
-                            <h2 className="text-xs lg:text-base md:text-base font-medium lg:font-extrabold md:font-extrabold">
-                              Total quantity : {totalQty}
-                            </h2>
-                            <h2 className="text-xs lg:text-base md:text-base font-medium lg:font-extrabold md:font-extrabold">
-                              Total amount : {currency(totalPrice)}
-                            </h2>
-                            <h2
-                              className={`py-1 px-1 text-xs w-fit ${
-                                status ? "bg-green-800" : "bg-red-700"
-                              }`}
+                          {
+                            <div
+                              className={`${
+                                enabled ? "text-white" : "text-black"
+                              } ${i !== orderItems.length-1 ? "invisible" : ""}`}
                             >
-                              {status ? status : "Payment Failed"}
-                            </h2>
-                          </div>}
+                              <h2 className="text-xs lg:text-base md:text-base font-medium lg:font-extrabold md:font-extrabold">
+                                Net quantity : {totalQty}
+                              </h2>
+                              <h2 className="text-xs lg:text-base md:text-base font-medium lg:font-extrabold md:font-extrabold">
+                              Net amount : {currency(totalPrice)}
+                              </h2>
+                              <h2
+                                className={`py-1 px-1 text-xs w-fit ${
+                                  status ? "bg-green-800" : "bg-red-700"
+                                }`}
+                              >
+                                {status ? "Order placed" : "Payment Failed"}
+                              </h2>
+                            </div>
+                          }
                         </div>
                       );
                     })}
@@ -90,7 +106,6 @@ const OrdersPage = () => {
               </div>
             );
           })}
-        
       </div>
     </>
   );

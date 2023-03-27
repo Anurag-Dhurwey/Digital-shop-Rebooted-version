@@ -4,11 +4,12 @@ import { Link } from "react-router-dom";
 import { currency } from "../../../Context/Mini_fuctions/PriceFormater";
 import { AiFillMinusCircle, AiFillPlusCircle } from "react-icons/ai";
 import { useCartContext } from "../../../Context/CartContext";
-import { message } from "antd";
-const CartItem = ({ itemData, setReady_to_checkout }) => {
+import {  message } from "antd";
+const CartItem = ({ itemData, setReady_to_checkout,calculation }) => {
   // eslint-disable-next-line
   const { cart, addToCart } = useCartContext();
   const { attributes, id, itemQty } = itemData;
+  const {setCalculatedTotalQty, setCalculatedTotalPrice}=calculation
   const { title, price, image } = attributes;
   const [Avilable_stock, setStock] = useState("");
   const [Qty, setQty] = useState();
@@ -19,6 +20,8 @@ const CartItem = ({ itemData, setReady_to_checkout }) => {
       ? setQty(Qty + 1)
       : setQty(Avilable_stock);
     if (Avilable_stock > Qty) {
+      setCalculatedTotalQty((pre)=>pre+1)
+      setCalculatedTotalPrice((pre)=>pre+price)
       addToCart(itemData, undefined, {
         ref: "CALL_FROM_CART",
         plush_Or_Minus: 1,
@@ -29,6 +32,8 @@ const CartItem = ({ itemData, setReady_to_checkout }) => {
   const decQty = () => {
     Qty > 1 ? setQty(Qty - 1) : setQty(1);
     if (Qty > 1) {
+      setCalculatedTotalQty((pre)=>pre-1)
+      setCalculatedTotalPrice((pre)=>pre-price)
       addToCart(itemData, undefined, {
         ref: "CALL_FROM_CART",
         plush_Or_Minus: 0,
@@ -64,7 +69,8 @@ const CartItem = ({ itemData, setReady_to_checkout }) => {
   return (
     <>
       <div className=" grid grid-cols-2 gap-2">
-        <div className="flex justify-center items-center">
+        <div className="flex justify-center items-center ">
+
           <figure className="w-[100px] h-[100px] overflow-hidden">
             <Link to={`/product/${id}`}>
               <img src={image.head_img[0]} alt="product_Img" />

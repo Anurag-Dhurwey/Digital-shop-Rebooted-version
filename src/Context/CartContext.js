@@ -26,6 +26,7 @@ export const CartContext = ({ children }) => {
   const [cart, setCart] = useReducer(cartReducer, initialCart);
   const { user } = useAuthContext();
   const [CheckoutItem, setCheckoutItem] = useState([]);
+  const [selected_items_to_order, setSelected_items_to_order] = useState([]);
 
   const addToCart = async (product, qty,callerOBJ) => {
     let addToCart;
@@ -44,6 +45,7 @@ export const CartContext = ({ children }) => {
         return product.id === item.id;
       });
       if (isItemExist.length) {
+        // eslint-disable-next-line
         let cartItems = cart.cartItems.map((item) => {
           if (item.id === product.id) {
             // if callerOBJ is  available, then tihs will be perform 
@@ -193,7 +195,7 @@ export const CartContext = ({ children }) => {
 
   return (
     <Context.Provider
-      value={{ cart, refresCartId, addToCart, CheckoutItem, setCheckoutItem }}
+      value={{ cart, refresCartId, addToCart, CheckoutItem, setCheckoutItem,selected_items_to_order, setSelected_items_to_order }}
     >
       {children}
     </Context.Provider>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import PaymentForm from "./PaymentForm";
@@ -6,7 +6,6 @@ import styled from "styled-components";
 import Address from "../Auth_components/Address";
 import { useAuthContext } from "../../../Context/AuthContext";
 import { message } from "antd";
-import { useNavigate } from "react-router-dom";
 import { useCartContext } from "../../../Context/CartContext";
 import { CreateOrders } from "../../../Context/Mini_fuctions/Create&UpdateOrders";
 import { useOrederContext } from "../../../Context/OrderContext";
@@ -17,11 +16,11 @@ import { useOrederContext } from "../../../Context/OrderContext";
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
 
 export default function StripeComp() {
-  const navigate = useNavigate();
   const { setGeneratedId } = useOrederContext();
   // eslint-disable-next-line
   const { user, userAddress, setUserAddress } = useAuthContext();
-  const { CheckoutItem } = useCartContext();
+  const { cart,CheckoutItem,setSelected_items_to_order } = useCartContext();
+  const { cartItems} = cart;
   const [isElement, setIsElement] = useState(1);
   const [addressIndex, setAddressIndex] = useState();
   const [clientSecret, setClientSecret] = useState("");
@@ -37,7 +36,7 @@ export default function StripeComp() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             amount: parseInt(CheckoutItem.totalPrice + "00"),
-            receipt_email: "anurag@1gmail.com",
+            receipt_email: user.email,
             description: `Payment for ${CheckoutItem.orderItems[0].attributes.title}`,
             metadata: {
               fullname,
@@ -66,6 +65,7 @@ export default function StripeComp() {
         const { error, data } = createdOredr;
         // console.log(createdOredr)
         if (data) {
+
           console.log(data);
           console.log(data.id);
           setGeneratedId(data.id);
@@ -103,6 +103,11 @@ export default function StripeComp() {
     clientSecret,
     appearance,
   };
+
+  useEffect(()=>{
+    setSelected_items_to_order([...cartItems])
+    // eslint-disable-next-line
+  },[])
 
   return (
     <>
