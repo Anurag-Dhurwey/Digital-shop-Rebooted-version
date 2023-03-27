@@ -16,14 +16,18 @@ import StripeComp from './Components/Sub_components/Payment_comps/Stripe'
 import PaymentFailed from './Components/Sub_components/Payment_comps/PaymentFailed';
 import PaymentSuccessfull from './Components/Sub_components/Payment_comps/PaymentSuccessfull';
 import OrdersPage from './Components/Sub_components/OrdersPage';
+import OrderSuccess from './Components/Mini_components/OrderPage/OrderSuccess';
 import WishlistPage from './Components/Sub_components/WishlistPage'
 import Categories from './Components/Sub_components/Categories';
+import ConnectingToServer from './Components/Sub_components/ConnectingToServer';
 
 function App() {
   const {enabled}=useGlobleContext()
   if(enabled){document.body.style.backgroundColor='rgb(34, 34, 34)'}else{document.body.style.backgroundColor='rgb(192,192,192)'}
   return (
     <>
+   
+    <ConnectingToServer/>    {/* <ConnectingToserver/> is an animation which show,s front end connected to database or not  */}
     <Navbar/>
     <Routes>
       <Route path='/' element={<Home/>} />
@@ -40,6 +44,7 @@ function App() {
       <Route path='/checkout-payment-failed' element={<PaymentFailed/>} />
       <Route path='/checkout-payment-success' element={<PaymentSuccessfull/>} />
       <Route path='/orders' element={<OrdersPage/>} />
+      <Route path='/order-placed-successfully' element={<OrderSuccess/>} />
     </Routes>
     <Footer/>
     </>

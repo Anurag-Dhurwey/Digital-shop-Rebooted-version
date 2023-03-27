@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import {MdDoNotDisturb} from 'react-icons/md'
 import { currency } from "../../Context/Mini_fuctions/PriceFormater";
 import { useOrederContext } from "../../Context/OrderContext";
 import { Link } from "react-router-dom";
@@ -18,7 +19,27 @@ const OrdersPage = () => {
                <div className="mt-4"><Link to={'/login'} className="px-3 py-1 bg-yellow-700">Login</Link></div>
           </div>}
         {user && <div>
-          {window.innerWidth < 640 && (
+          
+          {OrdersData.length<1 && <div>
+
+            <div
+                className={`mt-5 flex flex-col justify-center items-center  ${
+                  enabled ? "text-white" : "text-black"
+                }`}
+              >
+                <div className="text-4xl">
+                  <MdDoNotDisturb />
+                </div>
+                <div className="font-medium">You have not ordered yet.</div>
+              </div>
+
+          </div>}
+
+
+
+{/* Below logic will run when Ordered Items are available  */}
+          <div>
+          {OrdersData.length && window.innerWidth < 640 && (
           <div className="sticky top-0">
             <button
               className="text-xs bg-green-800 px-1 py-1 rounded-[15px]"
@@ -69,7 +90,7 @@ const OrdersPage = () => {
                                   : title.slice(0, 30) + "...."}
                               </Link>
                             </h2>
-                            <h6 className="text-xs">{currency(price)}</h6>
+                            <h6 className="text-xs">Price : <span>{currency(price)}</span> Qty : <span>{item.itemQty}</span></h6>
                             {window.innerWidth > 640 && (
                               <div className={`${i !== orderItems.length-1 ? "invisible" : ""}`}>
                                 <Details
@@ -113,6 +134,8 @@ const OrdersPage = () => {
               </div>
             );
           })}
+          </div>
+
           </div>}
       </div>
     </>

@@ -161,7 +161,7 @@ import { useGlobleContext } from "../../../Context/Globle_Context";
                </Form.Item>
              </Form>
              <Typography.Paragraph className="form_help_text">
-               New to Social Cards? <Link to="/register">Register</Link>
+               New to Digital Shop? <Link to="/register">Register</Link>
              </Typography.Paragraph>
            </Card>
          </Col>

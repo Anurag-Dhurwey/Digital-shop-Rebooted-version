@@ -99,7 +99,7 @@ export default function CheckoutForm() {
 
           setGeneratedId(undefined);
           message.success(`Order Successfull`);
-          navigate("/orders");
+          navigate("/order-placed-successfully");
         }
         if (error) {
           // if there is error then payment is done but order is not saved in database this is serious condition
