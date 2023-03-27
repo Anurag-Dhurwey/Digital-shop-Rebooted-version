@@ -28,19 +28,19 @@ export const CartContext = ({ children }) => {
   const [CheckoutItem, setCheckoutItem] = useState([]);
   const [selected_items_to_order, setSelected_items_to_order] = useState([]);
 
-  const addToCart = async (product, qty,callerOBJ) => {
+  const addToCart = async (product, qty, callerOBJ) => {
     let addToCart;
 
     // Destructuring the callerOBJ's values
-    let ref
-    let plush_Or_Minus
-    if(callerOBJ){
-      ref=callerOBJ.ref
-      plush_Or_Minus=callerOBJ.plush_Or_Minus
+    let ref;
+    let plush_Or_Minus;
+    if (callerOBJ) {
+      ref = callerOBJ.ref;
+      plush_Or_Minus = callerOBJ.plush_Or_Minus;
     }
-// this operator will check cartItems available or not 
+    // this operator will check cartItems available or not
     if (cart.cartItems.length) {
-      // this operator will check product already exist in cart or not 
+      // this operator will check product already exist in cart or not
       let isItemExist = cart.cartItems?.filter((item) => {
         return product.id === item.id;
       });
@@ -48,19 +48,17 @@ export const CartContext = ({ children }) => {
         // eslint-disable-next-line
         let cartItems = cart.cartItems.map((item) => {
           if (item.id === product.id) {
-            // if callerOBJ is  available, then tihs will be perform 
-            if(ref==='CALL_FROM_CART'){
+            // if callerOBJ is  available, then tihs will be perform
+            if (ref === "CALL_FROM_CART") {
               // it will check what action to Do (+ or -)
-              if(plush_Or_Minus===1){
-                console.log('if(plush_Or_Minus===1){')
+              if (plush_Or_Minus === 1) {
                 return {
                   ...item,
                   itemQty: item.itemQty + 1,
                   itemsPrice: item.itemsPrice + item.attributes.price * 1,
                 };
               }
-              if(plush_Or_Minus===0){
-                console.log('if(plush_Or_Minus===0)')
+              if (plush_Or_Minus === 0) {
                 return {
                   ...item,
                   itemQty: item.itemQty - 1,
@@ -68,43 +66,55 @@ export const CartContext = ({ children }) => {
                 };
               }
             }
-            if(!callerOBJ){
+            if (!callerOBJ) {
               return {
                 ...item,
                 itemQty: item.itemQty + qty,
                 itemsPrice: item.itemsPrice + item.attributes.price * qty,
               };
             }
-            
           } else {
             return {
               ...item,
             };
           }
         });
-        if(ref==='CALL_FROM_CART'){
-          // if called from Cart section it will be return 
-          if(plush_Or_Minus===1){
+        if (ref === "CALL_FROM_CART") {
+          // if called from Cart section it will be return
+          if (plush_Or_Minus === 1) {
             addToCart = {
               ...cart,
               cartItems: [...cartItems],
               totalQty: cart.totalQty + 1,
               totalPrice: cart.totalPrice + product.attributes.price * 1,
             };
-            console.log('Increasing')
+            console.log("Increasing");
           }
-          if(plush_Or_Minus===0){
+          if (plush_Or_Minus === 0) {
             addToCart = {
               ...cart,
               cartItems: [...cartItems],
               totalQty: cart.totalQty - 1,
               totalPrice: cart.totalPrice - product.attributes.price * 1,
             };
-            console.log('Deacreasing')
+            console.log("Deacreasing");
+          }
+          // below fuction will run when user delete a product from cart
+          if (plush_Or_Minus === "REMOVE") {
+            let removeItem = cart.cartItems?.filter((item) => {
+              return product.id !== item.id;
+            });
+
+            addToCart = {
+              ...cart,
+              cartItems: [...removeItem],
+              totalQty: cart.totalQty - product.itemQty,
+              totalPrice: cart.totalPrice - product.itemsPrice * 1,
+            };
           }
         }
-// if callerOBJ is undefined or not available, then tihs will be perform directly  
-        if(!callerOBJ){
+        // if callerOBJ is undefined or not available, then tihs will be perform directly
+        if (!callerOBJ) {
           addToCart = {
             ...cart,
             cartItems: [...cartItems],
@@ -112,15 +122,17 @@ export const CartContext = ({ children }) => {
             totalPrice: cart.totalPrice + product.attributes.price * qty,
           };
         }
-          // it will update same item in cartitems
+        // it will update same item in cartitems
         const res = await putCartItems(cart.cartId, addToCart);
         if (res.data) {
           setCart({ type: "ADD_TO_CART", payload: addToCart });
           console.log("same data updated successfully");
-          message.success(`Success`)
+         if(plush_Or_Minus==="REMOVE"){
+          message.warning(`Removed successfully`);
+         } 
         } else {
           console.log("can not be updated same data");
-          message.error(`Failed`)
+          message.error(`Failed to update`);
         }
       } else {
         // it will add a new item in cartitems
@@ -142,10 +154,10 @@ export const CartContext = ({ children }) => {
         if (res.data) {
           setCart({ type: "ADD_TO_CART", payload: addToCart });
           console.log("new data added successfully");
-          message.success(`Success`)
+          message.success(`Success`);
         } else {
           console.log("can not be added new data");
-          message.error(`Failed`)
+          message.error(`Failed`);
         }
       }
     } else {
@@ -170,14 +182,14 @@ export const CartContext = ({ children }) => {
           return val ? false : true;
         });
         console.log("data posted successfully for first time");
-        message.success(`Success`)
+        message.success(`Success`);
       } else {
         console.log("can not be posted first data");
-        message.error(`Failed`)
+        message.error(`Failed`);
       }
     }
   };
-  console.log(cart)
+  console.log(cart);
   useEffect(() => {
     const getCartItem = async () => {
       if (user) {
@@ -188,14 +200,22 @@ export const CartContext = ({ children }) => {
         if (cartRes.length) {
           setCart({ type: "GET_CART_ITEMS", payload: cartRes });
         }
-      } 
+      }
     };
     getCartItem();
   }, [user, cartRef]);
 
   return (
     <Context.Provider
-      value={{ cart, refresCartId, addToCart, CheckoutItem, setCheckoutItem,selected_items_to_order, setSelected_items_to_order }}
+      value={{
+        cart,
+        refresCartId,
+        addToCart,
+        CheckoutItem,
+        setCheckoutItem,
+        selected_items_to_order,
+        setSelected_items_to_order,
+      }}
     >
       {children}
     </Context.Provider>

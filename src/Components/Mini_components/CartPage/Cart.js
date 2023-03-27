@@ -7,11 +7,19 @@ import { currency } from "../../../Context/Mini_fuctions/PriceFormater";
 import CartItem from "./CartItem";
 import { useAuthContext } from "../../../Context/AuthContext";
 import { message } from "antd";
+import { RiDeleteBinLine } from "react-icons/ri";
 
 const Cart = () => {
   const navigate = useNavigate();
   const { user } = useAuthContext();
-  const { cart, CheckoutItem, setCheckoutItem ,selected_items_to_order, setSelected_items_to_order} = useCartContext();
+  const {
+    cart,
+    CheckoutItem,
+    setCheckoutItem,
+    selected_items_to_order,
+    setSelected_items_to_order,
+    addToCart
+  } = useCartContext();
   const { enabled } = useGlobleContext();
   const { cartItems, totalQty, totalPrice } = cart;
   const [ready_to_checkout, setReady_to_checkout] = useState(false);
@@ -30,7 +38,7 @@ const Cart = () => {
 
   const buynow = () => {
     if (ready_to_checkout) {
-      if(selected_items_to_order.length>0){
+      if (selected_items_to_order.length > 0) {
         setCheckoutItem({
           totalQty: calculatedTotalQty,
           totalPrice: calculatedTotalPrice,
@@ -39,15 +47,26 @@ const Cart = () => {
         if (CheckoutItem) {
           user ? navigate("/checkout") : navigate("/login");
         }
-      }else{
-        message.error(`No selected items to Checkout`)
+      } else {
+        message.error(`No selected items to Checkout`);
       }
     } else {
       message.error(`Items are not ready (Please Refresh this page)`);
     }
   };
 
-  // the below function is logic of checked or unchecked items 
+
+  const removeItem=(item)=>{
+    addToCart(item, undefined, {
+      ref: "CALL_FROM_CART",
+      plush_Or_Minus: "REMOVE",
+    });
+    setCalculatedTotalPrice(calculatedTotalPrice-item.itemsPrice)
+    setCalculatedTotalQty(calculatedTotalQty-item.itemQty)
+  }
+
+
+  // the below function is logic of checked or unchecked items
   const checkedItems = (item) => {
     console.log(selected_items_to_order);
     const isExist = selected_items_to_order.filter((ele) => {
@@ -134,14 +153,20 @@ const Cart = () => {
                       </td>
                       <td>{item.itemQty}</td>
                       <td>
-                        <div className="flex justify-center ">
+                        <div className="mb-2 flex justify-around items-center ">
                           <input
-                            className="cursor-pointer my-1"
+                            className="cursor-pointer"
                             type="checkbox"
                             name="#"
                             id="#"
                             defaultChecked
                             onChange={() => checkedItems(item)}
+                          />
+                          <RiDeleteBinLine
+                            className="cursor-pointer"
+                            onClick={() => {
+                             removeItem(item)
+                            }}
                           />
                         </div>
                         <div className="flex justify-center">
@@ -205,8 +230,8 @@ const Wrapper = styled.div`
   }
 
   .getpad td {
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
   }
 `;
 

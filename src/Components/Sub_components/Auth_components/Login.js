@@ -147,7 +147,7 @@ import { useGlobleContext } from "../../../Context/Globle_Context";
                  name="password"
                  rules={[{ required: true }]}
                >
-                 <Input.Password placeholder="Password" />
+                 <Input.Password placeholder="Password" autoComplete="off"/>
                </Form.Item>
  
                <Form.Item>

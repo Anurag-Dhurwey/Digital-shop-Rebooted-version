@@ -16,7 +16,14 @@ const MapAllProducts = () => {
   return (
     <>
       <div className="mb-auto">
-      {Wishlist?.map((item, i) => {
+      {!user && <div className={`mt-5 flex flex-col justify-center items-center h-min ${enabled?'text-white':'text-black'}`}>
+               <div className="font-medium">Wishlist not found</div>
+               <div className="mt-4"><Link to={'/login'} className="px-3 py-1 bg-yellow-700">Login</Link></div>
+          </div>}
+
+
+      {user && <div>
+        {Wishlist?.map((item, i) => {
         const { id, attributes } = item.attributes.wishlist;
 
         const {
@@ -89,6 +96,7 @@ const MapAllProducts = () => {
           </div>
         );
       })}
+        </div>}
       </div>
     </>
   );

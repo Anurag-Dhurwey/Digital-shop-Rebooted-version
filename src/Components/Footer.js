@@ -9,7 +9,7 @@ const Footer = () => {
   const { enabled } = useGlobleContext();
   return (
     <>
-      <Wrapper className={`${enabled ? "bg-gray-800 " : "bg-slate-300"} py-10`}>
+      <Wrapper className={`${enabled ? "bg-gray-800 " : "bg-slate-300"} py-10 z-[2]`}>
         <div className="flex justify-center align-middle gap-x-5">
           <BsFacebook className="Icon text-[#4267B2]" />
           <a

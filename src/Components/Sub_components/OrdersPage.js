@@ -4,14 +4,21 @@ import { useOrederContext } from "../../Context/OrderContext";
 import { Link } from "react-router-dom";
 import Details from "../Mini_components/OrderPage/Details";
 import { useGlobleContext } from "../../Context/Globle_Context";
+import { useAuthContext } from "../../Context/AuthContext";
 const OrdersPage = () => {
   const { enabled } = useGlobleContext();
+  const {user}=useAuthContext()
   const { OrdersData } = useOrederContext();
   const [showDetails, setShowDetails] = useState(false);
   return (
     <>
       <div className="mb-auto">
-        {window.innerWidth < 640 && (
+        {!user && <div className={`mt-5 flex flex-col justify-center items-center h-min ${enabled?'text-white':'text-black'}`}>
+               <div className="font-medium">Orders not found</div>
+               <div className="mt-4"><Link to={'/login'} className="px-3 py-1 bg-yellow-700">Login</Link></div>
+          </div>}
+        {user && <div>
+          {window.innerWidth < 640 && (
           <div className="sticky top-0">
             <button
               className="text-xs bg-green-800 px-1 py-1 rounded-[15px]"
@@ -106,6 +113,7 @@ const OrdersPage = () => {
               </div>
             );
           })}
+          </div>}
       </div>
     </>
   );
