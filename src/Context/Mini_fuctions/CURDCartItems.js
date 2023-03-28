@@ -1,3 +1,7 @@
+import { getToken } from "./AuthToken"
+
+const authToken=getToken()
+
 export const getCart=async(email)=>{
   try {
     const res=await fetch(`${process.env.REACT_APP_DATAURL}${process.env.REACT_APP_CART_API}`, {
@@ -6,7 +10,7 @@ export const getCart=async(email)=>{
         Accept: "application/json",
         "Content-Type": "application/json",
         Authorization:
-          `bearer ${process.env.REACT_APP_API_TOKEN}` ,
+          `bearer ${authToken}` ,
       },
       })
       let jsonRes=await res.json()
@@ -31,7 +35,7 @@ export const postCartItems=async(email,user,addToCart)=>{
             Accept: "application/json",
             "Content-Type": "application/json",
             Authorization:
-              `bearer ${process.env.REACT_APP_API_TOKEN}` ,
+              `bearer ${authToken}` ,
           },
           
           body: JSON.stringify({
@@ -62,7 +66,7 @@ export const putCartItems=async(cartId,addToCart)=>{
             Accept: "application/json",
             "Content-Type": "application/json",
             Authorization:
-              `bearer ${process.env.REACT_APP_API_TOKEN}` ,
+              `bearer ${authToken}` ,
           },
           
           body: JSON.stringify({
@@ -95,7 +99,7 @@ export const Update_Items_Qty_In_DB=async(cart,Qty)=>{
             Accept: "application/json",
             "Content-Type": "application/json",
             Authorization:
-              `bearer ${process.env.REACT_APP_API_TOKEN}` ,
+              `bearer ${authToken}` ,
           },
           
           body: JSON.stringify({

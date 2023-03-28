@@ -39,7 +39,7 @@ export const CartContext = ({ children }) => {
       plush_Or_Minus = callerOBJ.plush_Or_Minus;
     }
     // this operator will check cartItems available or not
-    if (cart.cartItems.length) {
+    if (cart && cart.cartId) {
       // this operator will check product already exist in cart or not
       let isItemExist = cart.cartItems?.filter((item) => {
         return product.id === item.id;
@@ -184,6 +184,7 @@ export const CartContext = ({ children }) => {
         console.log("data posted successfully for first time");
         message.success(`Success`);
       } else {
+        console.log(res)
         console.log("can not be posted first data");
         message.error(`Failed`);
       }

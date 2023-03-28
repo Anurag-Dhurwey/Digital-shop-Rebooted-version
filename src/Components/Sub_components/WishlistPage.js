@@ -36,7 +36,7 @@ const MapAllProducts = () => {
         {user && (
           <div>
             {/* when Wishlist is not available  */}
-            {Wishlist.length<1 && (
+            {Wishlist && Wishlist.length<1 && (
               <div
                 className={`mt-5 flex flex-col justify-center items-center  ${
                   enabled ? "text-white" : "text-black"
@@ -106,7 +106,7 @@ const MapAllProducts = () => {
                               }`}
                             />
                           )}
-                          <Link to={`/product/${item.id}`}>
+                          <Link to={`/product/${item.attributes.wishlist.id}`}>
                             <img src={head_img[1]} alt="product_Img" />
                           </Link>
                         </figure>
@@ -114,7 +114,7 @@ const MapAllProducts = () => {
                       <div className="max-w-[600px]">
                         <h2 className="font-bold  text-xs lg:text-base  lg:w-[600px] md:text-base ">
                           {" "}
-                          <Link to={`/product/${item.id}`}>
+                          <Link to={`/product/${item.attributes.wishlist.id}`}>
                             {title && window.innerWidth > 640 && title}
                             {title &&
                               window.innerWidth < 640 &&

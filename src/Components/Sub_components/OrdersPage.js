@@ -20,7 +20,7 @@ const OrdersPage = () => {
           </div>}
         {user && <div>
           
-          {OrdersData.length<1 && <div>
+          {OrdersData&& OrdersData.length<1 && <div>
 
             <div
                 className={`mt-5 flex flex-col justify-center items-center  ${
@@ -39,7 +39,7 @@ const OrdersPage = () => {
 
 {/* Below logic will run when Ordered Items are available  */}
           <div>
-          {OrdersData.length && window.innerWidth < 640 && (
+          {OrdersData&& OrdersData.length && window.innerWidth < 640 && (
           <div className="sticky top-0">
             <button
               className="text-xs bg-green-800 px-1 py-1 rounded-[15px]"

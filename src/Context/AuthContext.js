@@ -23,10 +23,8 @@ export const AuthContext = ({ children }) => {
         }
       );
       const data = await response.json();
-     console.log(data)
       setUserData(data);
       setUserAddress(data.address?[...data.address.address]:'')
-      console.log(userAddress)
     } catch (error) {
       console.error(error);
       message.error("Error While Getting Logged In User Details");

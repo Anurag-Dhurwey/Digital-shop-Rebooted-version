@@ -9,7 +9,6 @@ export const WishlistContext = ({ children }) => {
   const { user } = useAuthContext();
   const [Wishlist, setWishlist] = useState();
   const [generatedWishlist_ID, setGeneratedWishlist_ID] = useState();
-console.log(Wishlist)
   // the below fuction will fetch all the Wishlist data from database 
   const getAllWishlistData = async () => {
     const wishlistData = await getAllWishlist(user.email);

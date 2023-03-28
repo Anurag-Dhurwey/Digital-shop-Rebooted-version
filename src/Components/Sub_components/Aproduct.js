@@ -13,15 +13,11 @@ const Aproduct = () => {
     // const {aProduct,getOneError}=state
 
     const {products}=state
-    console.log(products)
-    console.log(id)
     const get_A_product_by_filter=()=>{
           const filteredProduct=products.filter((item)=>{
             return  parseInt(id)===parseInt(item.id)
           })
           setAproduct([...filteredProduct])
-          console.log(filteredProduct)
-          console.log(aProduct)
     }
 useEffect(()=>{
 
