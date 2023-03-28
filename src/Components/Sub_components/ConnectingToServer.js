@@ -3,14 +3,13 @@ import { useGlobleContext } from "../../Context/Globle_Context";
 // import connecting from "../../connecting";
 import styled from "styled-components";
 
-const ConnectingToServer = () => {
-  const { state,enabled } = useGlobleContext();
-  const { products } = state;
+const ConnectingToServer = ({message}) => {
+  const { enabled } = useGlobleContext();
   return (
     <>
-      {products.length < 1 && (
+      { (
         <div className="h-min flex justify-center items-center">
-          <h2 className={`text-[15px] ${enabled?'text-white':'text-black'}`}>Connecting to Database....</h2>
+          <h2 className={`text-[15px] ${enabled?'text-white':'text-black'}`}>{message}....</h2>
 
          <Wrapper className="h-[25px]">
          <div className="loadingio-spinner-pulse-didw0j0ramu">

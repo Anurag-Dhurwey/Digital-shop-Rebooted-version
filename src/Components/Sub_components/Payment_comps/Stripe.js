@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { ImWarning } from "react-icons/im";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import PaymentForm from "./PaymentForm";
@@ -9,6 +10,7 @@ import { message } from "antd";
 import { useCartContext } from "../../../Context/CartContext";
 import { CreateOrders } from "../../../Context/Mini_fuctions/Create&UpdateOrders";
 import { useOrederContext } from "../../../Context/OrderContext";
+import ConnectingToServer from "../ConnectingToServer";
 
 // Make sure to call loadStripe outside of a component’s render to avoid
 // recreating the Stripe object on every render.
@@ -19,12 +21,13 @@ export default function StripeComp() {
   const { setGeneratedId } = useOrederContext();
   // eslint-disable-next-line
   const { user, userAddress, setUserAddress } = useAuthContext();
-  const { cart,CheckoutItem,setSelected_items_to_order } = useCartContext();
-  const { cartItems} = cart;
+  const { cart, CheckoutItem, setSelected_items_to_order } = useCartContext();
+  const { cartItems } = cart;
   const [isElement, setIsElement] = useState(1);
   const [addressIndex, setAddressIndex] = useState();
   const [clientSecret, setClientSecret] = useState("");
   const [selectedAddress, setSelectedAddress] = useState();
+  const [loadingElements, setLoadingElements] = useState(true);
   const fetchClientSecret = async (userAddress) => {
     const { fullname, mobile, house, city, zip, area, landmark, state } =
       userAddress;
@@ -65,7 +68,6 @@ export default function StripeComp() {
         const { error, data } = createdOredr;
         // console.log(createdOredr)
         if (data) {
-
           console.log(data);
           console.log(data.id);
           setGeneratedId(data.id);
@@ -78,7 +80,12 @@ export default function StripeComp() {
       }
     } catch (error) {
       console.log(error);
-      message.error(`Server is not responding try again after some time`);
+      if(CheckoutItem.orderItems){
+
+        message.error(`Server is not responding try again after some time`);
+      }else{
+        message.error(`No selected items to checkout`)
+      }
       // navigate("/");
       setIsElement(1);
     }
@@ -104,10 +111,10 @@ export default function StripeComp() {
     appearance,
   };
 
-  useEffect(()=>{
-    setSelected_items_to_order([...cartItems])
+  useEffect(() => {
+    setSelected_items_to_order([...cartItems]);
     // eslint-disable-next-line
-  },[])
+  }, []);
 
   return (
     <>
@@ -157,10 +164,50 @@ export default function StripeComp() {
 
       {isElement === 2 && (
         <Wrapper className="App flex flex-col justify-center items-center ">
+
+
+          {/*before Mounting of PaymentForm  */}
+          {loadingElements && (
+            <div className="flex flex-col justify-center items-center">
+              <ConnectingToServer message={"Initializing Payment"}/>
+            </div>
+          )}
+
           {clientSecret && (
-            <Elements options={options} stripe={stripePromise}>
-              <PaymentForm />
-            </Elements>
+            <div>
+              <div className="warning p-2 text-center text-yellow-500 flex flex-col justify-center items-center ">
+                <ImWarning className="text-2xl " />
+                <h2>
+                  {" "}
+                  <span className="text-sm font-medium">
+                    Dont enter your own card details
+                  </span>
+                </h2>
+                {/* <p className="text-xs ">This ecommerce platform is only for testing purpose</p> */}
+                <div>
+                  <h2 className="text-sm text-start font-medium mt-5">
+                    Enter details which are given below :{" "}
+                  </h2>
+                  <h2 className="text-sm text-white flex flex-col justify-start items-start">
+                    <span className="font-medium">
+                      <span>Email :</span> your registered email
+                    </span>
+                    <span className="font-medium">
+                      <span>Card number :</span> 4242 4242 4242 4242
+                    </span>
+                    <span className="font-medium">
+                      <span>Expiry :</span> 12/34
+                    </span>
+                    <span className="font-medium">
+                      <span>CVC :</span> 465
+                    </span>
+                  </h2>
+                </div>
+              </div>
+              <Elements options={options} stripe={stripePromise}>
+                <PaymentForm setLoadingElements={setLoadingElements} />
+              </Elements>
+            </div>
           )}
         </Wrapper>
       )}
@@ -169,6 +216,14 @@ export default function StripeComp() {
 }
 
 const Wrapper = styled.div`
+  .warning {
+    align-self: center;
+    box-shadow: 0px 0px 0px 0.5px rgba(50, 50, 93, 0.1),
+      0px 2px 5px 0px rgba(50, 50, 93, 0.1),
+      0px 1px 1.5px 0px rgba(0, 0, 0, 0.07);
+    border-radius: 7px;
+    background-color: green;
+  }
   form {
     width: 30vw;
     min-width: 500px;
@@ -177,7 +232,7 @@ const Wrapper = styled.div`
       0px 2px 5px 0px rgba(50, 50, 93, 0.1),
       0px 1px 1.5px 0px rgba(0, 0, 0, 0.07);
     border-radius: 7px;
-    padding: 40px;
+    padding: 20px;
     background-color: aqua;
   }
 

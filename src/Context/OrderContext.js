@@ -9,7 +9,7 @@ export const OrderContext = ({ children }) => {
     const {user}=useAuthContext()
 
   const [generatedId, setGeneratedId] = useState();
-  const [OrdersData,setOrdersData]=useState()
+  const [OrdersData,setOrdersData]=useState([])
   
 
   const getAllOrdersData=async()=>{
@@ -19,7 +19,7 @@ export const OrderContext = ({ children }) => {
       const {error}=orderData
     if(!error){
       if(orderData){
-           setOrdersData(orderData)   
+           setOrdersData([...orderData])   
       }else{
         console.log("order data not found")
       }

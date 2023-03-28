@@ -22,12 +22,12 @@ import Categories from './Components/Sub_components/Categories';
 import ConnectingToServer from './Components/Sub_components/ConnectingToServer';
 
 function App() {
-  const {enabled}=useGlobleContext()
+  const {state,enabled}=useGlobleContext()
+  const {products}=state
   if(enabled){document.body.style.backgroundColor='rgb(34, 34, 34)'}else{document.body.style.backgroundColor='rgb(192,192,192)'}
   return (
     <>
-   
-    <ConnectingToServer/>    {/* <ConnectingToserver/> is an animation which show,s front end connected to database or not  */}
+   {products.length < 1 &&(<ConnectingToServer message={'Connecting to Database'}/> )}  {/* <ConnectingToserver/> is an animation which show,s front end connected to database or not  */}
     <Navbar/>
     <Routes>
       <Route path='/' element={<Home/>} />

@@ -60,7 +60,7 @@ export const CreateOrders = async (user, jsondata, CheckoutItem, address) => {
         body: JSON.stringify({
           data: {
             email,
-            user: "anu",
+            user: username,
             order_Id: id,
             products: { ...CheckoutItem },
             payment_info: { message, status },
@@ -99,10 +99,12 @@ export const getAllOrders = async (email) => {
     );
     let jsonRes = await res.json();
     const { error, data } = jsonRes;
+    console.log(jsonRes)
     if (data) {
       jsonRes = jsonRes.data?.filter((item) => {
         return email.toLowerCase() === item.attributes.email.toLowerCase();
       });
+      console.log(jsonRes)
       jsonRes = jsonRes.sort((a, b) => b.id - a.id);
       return jsonRes;
     }

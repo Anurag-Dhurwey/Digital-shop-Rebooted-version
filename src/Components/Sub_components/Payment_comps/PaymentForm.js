@@ -11,7 +11,7 @@ import { CompleteOrders } from "../../../Context/Mini_fuctions/Create&UpdateOrde
 import { useOrederContext } from "../../../Context/OrderContext";
 import { useAuthContext } from "../../../Context/AuthContext";
 
-export default function CheckoutForm() {
+export default function CheckoutForm({setLoadingElements}) {
   const navigate = useNavigate();
   const { user } = useAuthContext();
   const stripe = useStripe();
@@ -128,9 +128,16 @@ export default function CheckoutForm() {
     layout: "tabs",
   };
 
+  useEffect(()=>{
+      if(stripe || elements){
+        setLoadingElements(false)
+      }
+       // eslint-disable-next-line
+  },[stripe,elements])
+
 
   return (
-    <form id="payment-form" onSubmit={handleSubmit}>
+    <form id="payment-form" onSubmit={handleSubmit} >
       <LinkAuthenticationElement
         id="link-authentication-element"
         onChange={(e) => setEmail(e.target ? e.target.value : user.email)}

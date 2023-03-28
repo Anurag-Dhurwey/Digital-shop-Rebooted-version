@@ -13,7 +13,6 @@ const MapAllProducts = () => {
   const { enabled } = useGlobleContext();
   const { user } = useAuthContext();
   const { Wishlist, postWishlist, DELETEWishlist } = useWishlistContext();
-  console.log(Wishlist)
 
   return (
     <>

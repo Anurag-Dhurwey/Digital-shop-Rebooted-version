@@ -11,6 +11,7 @@ const OrdersPage = () => {
   const {user}=useAuthContext()
   const { OrdersData } = useOrederContext();
   const [showDetails, setShowDetails] = useState(false);
+  console.log(OrdersData)
   return (
     <>
       <div className="mb-auto">
@@ -20,7 +21,7 @@ const OrdersPage = () => {
           </div>}
         {user && <div>
           
-          {OrdersData&& OrdersData.length<1 && <div>
+          {OrdersData.length<1 && <div>
 
             <div
                 className={`mt-5 flex flex-col justify-center items-center  ${
