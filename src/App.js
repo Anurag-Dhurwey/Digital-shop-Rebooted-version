@@ -45,6 +45,7 @@ function App() {
       <Route path='/checkout-payment-success' element={<PaymentSuccessfull/>} />
       <Route path='/orders' element={<OrdersPage/>} />
       <Route path='/order-placed-successfully' element={<OrderSuccess/>} />
+      <Route path='*' element={<Home/>} />
     </Routes>
     <Footer/>
     </>
