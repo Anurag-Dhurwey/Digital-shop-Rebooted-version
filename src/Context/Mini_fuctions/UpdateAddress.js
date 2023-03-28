@@ -2,6 +2,8 @@
 import { getToken } from "./AuthToken"
 
 const authToken=getToken()
+
+
 export const UpdateAddress=async(id,userAddress,addressData)=>{
 
 
@@ -22,7 +24,6 @@ export const UpdateAddress=async(id,userAddress,addressData)=>{
           return data
 
     } catch (error) {
-        
         console.log(error)
     }
 }

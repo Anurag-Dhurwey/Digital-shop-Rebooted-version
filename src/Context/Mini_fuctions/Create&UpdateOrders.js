@@ -101,7 +101,7 @@ export const getAllOrders = async (email) => {
     const { error, data } = jsonRes;
     if (data) {
       jsonRes = jsonRes.data?.filter((item) => {
-        return email === item.attributes.email;
+        return email.toLowerCase() === item.attributes.email.toLowerCase();
       });
       jsonRes = jsonRes.sort((a, b) => b.id - a.id);
       return jsonRes;

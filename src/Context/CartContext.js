@@ -127,9 +127,9 @@ export const CartContext = ({ children }) => {
         if (res.data) {
           setCart({ type: "ADD_TO_CART", payload: addToCart });
           console.log("same data updated successfully");
-         if(plush_Or_Minus==="REMOVE"){
-          message.warning(`Removed successfully`);
-         } 
+          if (plush_Or_Minus === "REMOVE") {
+            message.warning(`Removed successfully`);
+          }
         } else {
           console.log("can not be updated same data");
           message.error(`Failed to update`);
@@ -184,7 +184,7 @@ export const CartContext = ({ children }) => {
         console.log("data posted successfully for first time");
         message.success(`Success`);
       } else {
-        console.log(res)
+        console.log(res);
         console.log("can not be posted first data");
         message.error(`Failed`);
       }

@@ -15,7 +15,7 @@ export const getCart=async(email)=>{
       })
       let jsonRes=await res.json()
       jsonRes=jsonRes.data?.filter((item)=>{
-              return email ===item.attributes.email
+              return email.toLowerCase() ===item.attributes.email.toLowerCase()
       })
       return jsonRes
   } catch (error) {
