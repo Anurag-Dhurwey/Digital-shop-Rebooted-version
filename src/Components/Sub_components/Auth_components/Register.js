@@ -92,6 +92,8 @@ import { useGlobleContext } from "../../../Context/Globle_Context";
                     {
                       required: true,
                       type: "string",
+                      max:25,
+                      min:3
                     },
                   ]}
                 >
@@ -113,7 +115,7 @@ import { useGlobleContext } from "../../../Context/Globle_Context";
                 <Form.Item
                   label="Password"
                   name="password"
-                  rules={[{ required: true }]}
+                  rules={[{ required: true,min:6 }]}
                 >
                   <Input.Password placeholder="Password" />
                 </Form.Item>

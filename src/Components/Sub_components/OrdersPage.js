@@ -11,7 +11,6 @@ const OrdersPage = () => {
   const {user}=useAuthContext()
   const { OrdersData } = useOrederContext();
   const [showDetails, setShowDetails] = useState(false);
-  console.log(OrdersData)
   return (
     <>
       <div className="mb-auto">
