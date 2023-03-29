@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useAuthContext } from "../../Context/AuthContext";
 import { useGlobleContext } from "../../Context/Globle_Context";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Address from "./Auth_components/Address";
 import { FaRegEdit } from "react-icons/fa";
 import { RiDeleteBin2Line } from "react-icons/ri";
 import { UpdateAddress } from "../../Context/Mini_fuctions/UpdateAddress";
 import { message } from "antd";
+import { getToken } from "../../Context/Mini_fuctions/AuthToken";
 const UserProfile = () => {
   // eslint-disable-next-line
   const { userAddress, setUserAddress } = useAuthContext();
@@ -14,7 +15,7 @@ const UserProfile = () => {
   const { enabled } = useGlobleContext();
   const { user } = useAuthContext();
   const navigate = useNavigate();
-
+  const token=getToken()
   const [toUpdate, setToUpdate] = useState();
 
   useEffect(() => {
@@ -120,7 +121,8 @@ const UserProfile = () => {
                     <h5 className=" font-medium">NO ADDRESS FOUND</h5>
                   )}
                 </div>
-                <button
+               <div className="flex justify-between items-center">
+               <button
                   className="px-3 py-1 my-2 text-sm bg-[#214431]"
                   onClick={() => {
                     setAddress(true);
@@ -128,6 +130,13 @@ const UserProfile = () => {
                 >
                   Add Address
                 </button>
+               <Link
+                   to={`http://localhost:3000/ChangePass?token=${token}`}
+                  className="px-3 py-1 my-2 text-sm bg-[#214431]"
+                >
+                  Change Password
+                </Link>
+               </div>
               </div>
             </div>
           </div>
