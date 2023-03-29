@@ -88,7 +88,7 @@ const UserProfile = () => {
                         >
                           <h5 className=" flex justify-start gap-x-5 items-center pb-2">
                             Address {i + 1}{" "}
-                            <span>
+                            <span className="cursor-pointer">
                               <FaRegEdit
                                 onClick={() => {
                                   updateAddress(item);
