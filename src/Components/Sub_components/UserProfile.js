@@ -131,7 +131,7 @@ const UserProfile = () => {
                   Add Address
                 </button>
                <Link
-                   to={`http://localhost:3000/ChangePass?token=${token}`}
+                   to={`https://forget-password-return.vercel.app/forgotpassword?token=${token}`}
                   className="px-3 py-1 my-2 text-sm bg-[#214431]"
                 >
                   Change Password
